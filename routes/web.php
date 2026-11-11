@@ -1,30 +1,48 @@
 <?php
 
-use App\Http\Controllers\Biodata1065Controller;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\QuestionController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
-Route::resource('user', UserController::class)->except('show');
-
-Route::resource('portofolio', PortofolioController::class);
-
+// Halaman publik
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('question/store', [QuestionController::class, 'store'])
-    ->name('question.store');
+// Hanya untuk yang belum login
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.process');
+});
 
-Route::get('question/respon', [QuestionController::class, 'respon'])
-    ->name('question.respon');
+// Halaman untuk semua role yang sudah login
+Route::middleware('auth')->group(function () {
 
-Route::get('dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::resource('pelanggan', PelangganController::class);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Resource Route untuk Biodata_1065 (NIM 1065)
-Route::resource('biodata1065', Biodata1065Controller::class);
+    // User: memesan jadwal servis
+    Route::post('/booking', [BookingController::class, 'store'])
+        ->middleware('role:user')
+        ->name('booking.store');
+
+    // Mekanik: mengubah status pengerjaan
+    Route::patch('/pekerjaan/{booking}/status', [BookingController::class, 'updateStatus'])
+        ->middleware('role:mekanik')
+        ->name('pekerjaan.status');
+
+    // Admin dan owner: data pelanggan
+    Route::middleware('role:admin,owner')->group(function () {
+        Route::resource('pelanggan', PelangganController::class);
+    });
+
+    // Admin: kelola akun user
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('user', UserController::class)->except('show');
+    });
+});
