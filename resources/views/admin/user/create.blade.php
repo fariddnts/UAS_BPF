@@ -63,6 +63,24 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <!-- Role -->
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select id="role" name="role" class="form-select @error('role') is-invalid @enderror" required>
+                                        <option value="">Pilih role</option>
+                                        @foreach ([
+                                            \App\Models\User::ROLE_OWNER,
+                                            \App\Models\User::ROLE_ADMIN,
+                                            \App\Models\User::ROLE_MEKANIK,
+                                            \App\Models\User::ROLE_USER,
+                                        ] as $role)
+                                            <option value="{{ $role }}" @selected(old('role') === $role)>{{ ucfirst($role) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <!-- Password (tidak di-repopulate demi keamanan) -->
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>

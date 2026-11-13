@@ -19,8 +19,8 @@ class DashboardController extends Controller
             return view('dashboard.user', compact('bookings'));
         }
 
-        // Mekanik: daftar pekerjaan dan ubah status
-        if ($user->hasRole('mekanik')) {
+        // Admin dan mekanik: daftar pekerjaan
+        if ($user->hasRole('admin', 'mekanik')) {
             $bookings = Booking::with('user')
                 ->orderByRaw("FIELD(status, 'on_progress', 'pending', 'finished')")
                 ->orderBy('tanggal_booking')
@@ -30,7 +30,47 @@ class DashboardController extends Controller
             return view('dashboard.mekanik', compact('bookings'));
         }
 
-        // Admin dan owner: dashboard yang sudah ada di resources/views/admin/dashboard.blade.php
-        return view('admin.dashboard');
+        $now = now();
+        $periods = [
+            'daily' => [
+                'label' => 'Hari Ini',
+                'start' => $now->copy()->startOfDay(),
+                'end' => $now->copy()->endOfDay(),
+            ],
+            'monthly' => [
+                'label' => 'Bulan Ini',
+                'start' => $now->copy()->startOfMonth(),
+                'end' => $now->copy()->endOfMonth(),
+            ],
+            'yearly' => [
+                'label' => 'Tahun Ini',
+                'start' => $now->copy()->startOfYear(),
+                'end' => $now->copy()->endOfYear(),
+            ],
+        ];
+
+        $serviceTypes = array_fill_keys(array_keys(Booking::LAYANAN), 0);
+        $bookingStats = [];
+
+        foreach ($periods as $key => $period) {
+            $counts = Booking::query()
+                ->whereBetween('created_at', [$period['start'], $period['end']])
+                ->selectRaw('jenis_layanan, COUNT(*) as total')
+                ->groupBy('jenis_layanan')
+                ->pluck('total', 'jenis_layanan')
+                ->all();
+
+            $serviceCounts = array_replace($serviceTypes, $counts);
+            $bookingStats[$key] = [
+                'label' => $period['label'],
+                'total' => array_sum($serviceCounts),
+                'services' => $serviceCounts,
+            ];
+        }
+
+        return view('dashboard.owner', [
+            'bookingStats' => $bookingStats,
+            'serviceTypes' => Booking::LAYANAN,
+        ]);
     }
 }

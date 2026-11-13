@@ -22,7 +22,9 @@
                     <th>Layanan</th>
                     <th>Keluhan</th>
                     <th>Status</th>
-                    <th>Ubah Status</th>
+                    @if(auth()->user()->hasRole('mekanik'))
+                        <th>Ubah Status</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -35,21 +37,23 @@
                         <td>{{ \App\Models\Booking::LAYANAN[$b->jenis_layanan] ?? $b->jenis_layanan }}</td>
                         <td>{{ $b->keluhan ?: '-' }}</td>
                         <td><span class="badge {{ $b->badgeClass() }}">{{ $b->statusLabel() }}</span></td>
-                        <td>
-                            <form action="{{ route('pekerjaan.status', $b) }}" method="POST" class="d-flex gap-2">
-                                @csrf
-                                @method('PATCH')
-                                <select name="status" class="form-select form-select-sm">
-                                    @foreach(\App\Models\Booking::STATUSES as $value => $label)
-                                        <option value="{{ $value }}" @selected($b->status === $value)>{{ $label }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
-                            </form>
-                        </td>
+                        @if(auth()->user()->hasRole('mekanik'))
+                            <td>
+                                <form action="{{ route('pekerjaan.status', $b) }}" method="POST" class="d-flex gap-2">
+                                    @csrf
+                                    @method('PATCH')
+                                    <select name="status" class="form-select form-select-sm">
+                                        @foreach(\App\Models\Booking::STATUSES as $value => $label)
+                                            <option value="{{ $value }}" @selected($b->status === $value)>{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                </form>
+                            </td>
+                        @endif
                     </tr>
                 @empty
-                    <tr><td colspan="7" class="text-center py-4">Belum ada pekerjaan.</td></tr>
+                    <tr><td colspan="{{ auth()->user()->hasRole('mekanik') ? 7 : 6 }}" class="text-center py-4">Belum ada pekerjaan.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -8,7 +8,7 @@
                 <li class="nav-item dropdown ms-lg-3">
                     <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="media d-flex align-items-center">
-                            <img class="avatar rounded-circle" alt="Foto profil {{ auth()->user()->name }}" src="{{ asset('assets-admin/img/team/profile-picture-3.jpg') }}">
+                            <img class="avatar rounded-circle" alt="Foto profil default" src="{{ asset('assets-admin/img/default-avatar.svg') }}">
                             <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                                 <span class="mb-0 font-small fw-bold text-gray-900 d-block">{{ auth()->user()->name }}</span>
                                 <span class="font-small text-gray-600">{{ ucfirst(auth()->user()->role) }}</span>
