@@ -45,6 +45,7 @@
         {{-- Menu --}}
         <ul class="nav flex-column pt-3 pt-md-0">
 
+            @unless(auth()->user()?->hasRole('user', 'admin'))
             {{-- Volt Overview --}}
             <li class="nav-item">
                 <a href="{{ route('dashboard') }}" class="nav-link d-flex align-items-center">
@@ -54,6 +55,7 @@
                     <span class="mt-1 ms-1 sidebar-text">Volt Overview</span>
                 </a>
             </li>
+            @endunless
 
             {{-- Menu Dashboard (semua role) --}}
             <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -68,8 +70,8 @@
                 </a>
             </li>
 
-            {{-- Menu Pelanggan (admin, owner) --}}
-            @if(auth()->user()?->hasRole('admin', 'owner'))
+            {{-- Menu Pelanggan (owner) --}}
+            @if(auth()->user()?->hasRole('owner'))
             <li class="nav-item {{ request()->routeIs('pelanggan.*') ? 'active' : '' }}">
                 <a href="{{ route('pelanggan.index') }}" class="nav-link">
                     <span class="sidebar-icon">
@@ -104,6 +106,7 @@
                 - Laporan : admin, owner
             --}}
 
+            @unless(auth()->user()?->hasRole('user', 'admin'))
             <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
 
             {{-- Documentation --}}
@@ -129,6 +132,7 @@
                     <span>Upgrade to Pro</span>
                 </a>
             </li>
+            @endunless
         </ul>
     </div>
 </nav>
