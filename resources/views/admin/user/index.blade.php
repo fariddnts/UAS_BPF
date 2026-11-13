@@ -39,27 +39,40 @@
                                 <tr>
                                     <th class="border-0 rounded-start">Name</th>
                                     <th class="border-0">Email</th>
+                                    <th class="border-0">Role</th>
                                     <th class="border-0 rounded-end">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($dataUser as $item)
+                                @forelse ($dataUser as $item)
                                     <tr>
-                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->name }}
+                                            @if ($item->id === auth()->id())
+                                                <span class="badge bg-success ms-1">Anda</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $item->email }}</td>
+                                        <td><span class="badge bg-secondary">{{ ucfirst($item->role) }}</span></td>
                                         <td>
                                             <!-- Tombol Edit -->
                                             <a href="{{ route('user.edit', $item->id) }}" class="btn btn-info btn-sm">Edit</a>
 
-                                            <!-- Tombol Hapus -->
-                                            <form action="{{ route('user.destroy', $item->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin mau hapus data ini?')">Hapus</button>
-                                            </form>
+                                            <!-- Tombol Hapus (tidak tampil untuk akun sendiri) -->
+                                            @if ($item->id !== auth()->id())
+                                                <form action="{{ route('user.destroy', $item->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin mau hapus data ini?')">Hapus</button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4">Belum ada data user.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

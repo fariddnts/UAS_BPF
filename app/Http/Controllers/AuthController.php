@@ -46,17 +46,19 @@ class AuthController extends Controller
         ]);
 
         // Role selalu 'user'. Jangan pernah diambil dari input form.
-        $user = User::create([
+        // Role mekanik, owner, dan admin hanya dibuat admin lewat menu User.
+        User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => $data['password'], // di-hash otomatis oleh cast 'hashed'
             'role'     => User::ROLE_USER,
         ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
-
-        return redirect()->route('dashboard');
+        // Tidak langsung login: pengguna masuk sendiri dengan akun yang baru dibuat
+        return redirect()
+            ->route('login')
+            ->withInput($request->only('email'))
+            ->with('success', 'Akun berhasil dibuat. Silakan masuk dengan email dan kata sandi Anda.');
     }
 
     public function logout(Request $request)
@@ -65,6 +67,8 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        return redirect()
+            ->route('login')
+            ->with('success', 'Anda telah keluar.');
     }
 }

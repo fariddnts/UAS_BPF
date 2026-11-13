@@ -64,6 +64,25 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <!-- Role -->
+                                @php $akunSendiri = $dataUser->id === auth()->id(); @endphp
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select id="role" class="form-select @error('role') is-invalid @enderror"
+                                            @if ($akunSendiri) disabled @else name="role" required @endif>
+                                        @foreach (\App\Models\User::ROLES as $role)
+                                            <option value="{{ $role }}" @selected(old('role', $dataUser->role) === $role)>{{ ucfirst($role) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($akunSendiri)
+                                        {{-- Select yang disabled tidak ikut terkirim, jadi role dikirim lewat input tersembunyi --}}
+                                        <input type="hidden" name="role" value="{{ $dataUser->role }}">
+                                        <div class="form-text">Role akun Anda sendiri tidak dapat diubah.</div>
+                                    @endif
+                                    @error('role')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <!-- Password (opsional) -->
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password Baru</label>

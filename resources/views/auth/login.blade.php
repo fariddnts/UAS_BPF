@@ -11,6 +11,12 @@
                     <h1 class="h3 mb-1">Masuk</h1>
                     <p class="text-muted mb-4">Bengkel Motor Cendekia</p>
 
+                    @if(session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     @if($errors->any())
                         <div class="alert alert-danger" role="alert">
                             {{ $errors->first() }}
@@ -35,7 +41,7 @@
                         <div class="d-flex justify-content-between mb-4">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="show-password"
-                                    onclick="document.getElementById('password').type = this.checked ? 'text' : 'password'">
+                                       onclick="document.getElementById('password').type = this.checked ? 'text' : 'password'">
                                 <label class="form-check-label" for="show-password">Tampilkan kata sandi</label>
                             </div>
                             <div class="form-check">

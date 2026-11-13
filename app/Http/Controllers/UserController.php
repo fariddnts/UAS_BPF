@@ -35,6 +35,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name'     => 'required|string|max:100',
             'email'    => 'required|email|unique:users,email',
+            'role'     => ['required', Rule::in(User::ROLES)],
             'password' => 'required|min:8|confirmed',
         ]);
 
@@ -77,8 +78,15 @@ class UserController extends Controller
         $data = $request->validate([
             'name'     => 'required|string|max:100',
             'email'    => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
+            'role'     => ['required', Rule::in(User::ROLES)],
             'password' => 'nullable|min:8|confirmed',
         ]);
+
+        // Admin tidak boleh menurunkan role akunnya sendiri
+        if ($user->id === $request->user()->id && $data['role'] !== User::ROLE_ADMIN) {
+            return back()->withInput()
+                ->with('error', 'Anda tidak dapat mengubah role akun Anda sendiri.');
+        }
 
         try {
             if ($request->filled('password')) {
@@ -103,6 +111,12 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
+
+        // Admin tidak boleh menghapus akunnya sendiri
+        if ($user->id === auth()->id()) {
+            return redirect()->route('user.index')
+                ->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
+        }
 
         try {
             $user->delete();
