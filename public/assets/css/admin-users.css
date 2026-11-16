@@ -1,0 +1,358 @@
+.admin-users {
+    --admin-ink: #202b3a;
+    --admin-blue: #123fc5;
+    --admin-orange: #ff6b1a;
+    padding-top: 0.5rem;
+}
+
+.admin-users > .py-4 {
+    padding-top: 1.25rem !important;
+}
+
+.admin-users .breadcrumb {
+    margin-bottom: 0.65rem;
+}
+
+.admin-users__eyebrow {
+    color: var(--admin-blue);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+}
+
+.admin-users__title {
+    color: #17172f;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin-bottom: 0.35rem;
+}
+
+.admin-users__subtitle {
+    color: #687386;
+    margin-bottom: 0;
+}
+
+.admin-users__add-button {
+    align-items: center;
+    background: var(--admin-ink);
+    border: 1px solid var(--admin-ink);
+    border-radius: 0.55rem;
+    color: #fff;
+    font-weight: 700;
+    min-height: 2.75rem;
+    padding: 0.65rem 1rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.admin-users__add-button:hover,
+.admin-users__add-button:focus {
+    background: var(--admin-blue);
+    border-color: var(--admin-blue);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.admin-users__summary {
+    display: grid;
+    gap: 0.85rem;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin: 0 0 2rem;
+}
+
+.admin-users__stat {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 0.8rem;
+    box-shadow: 0 3px 12px rgba(22, 34, 51, 0.04);
+    display: flex;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 0.9rem;
+}
+
+.admin-users__stat-icon {
+    align-items: center;
+    background: #eef4ff;
+    border-radius: 0.65rem;
+    color: var(--admin-blue);
+    display: flex;
+    flex: 0 0 2.5rem;
+    font-size: 1rem;
+    height: 2.5rem;
+    justify-content: center;
+}
+
+.admin-users__stat--all .admin-users__stat-icon,
+.admin-users__stat--owner .admin-users__stat-icon {
+    background: #fff4e8;
+    color: #d97706;
+}
+
+.admin-users__stat--mekanik .admin-users__stat-icon {
+    background: #eaf8f1;
+    color: #15945d;
+}
+
+.admin-users__stat--user .admin-users__stat-icon {
+    background: #f2edff;
+    color: #7047c5;
+}
+
+.admin-users__stat p {
+    color: #687386;
+    font-size: 0.76rem;
+    font-weight: 650;
+    margin: 0 0 0.1rem;
+}
+
+.admin-users__stat strong {
+    color: var(--admin-ink);
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-right: 0.2rem;
+}
+
+.admin-users__stat div > span {
+    color: #8791a1;
+    font-size: 0.72rem;
+}
+
+.admin-users__list {
+    margin-bottom: 1.5rem;
+}
+
+.admin-users__list-heading {
+    align-items: end;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+}
+
+.admin-users__list-heading .admin-users__eyebrow {
+    color: var(--admin-orange);
+    font-size: 0.67rem;
+}
+
+.admin-users__list-heading h2 {
+    color: var(--admin-ink);
+    font-size: 1.35rem;
+    font-weight: 750;
+    margin: 0;
+}
+
+.admin-users__count {
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 999px;
+    color: #687386;
+    font-size: 0.78rem;
+    font-weight: 650;
+    padding: 0.4rem 0.75rem;
+}
+
+.admin-users__table-card {
+    border-radius: 0.85rem;
+    overflow: hidden;
+}
+
+.admin-users__table {
+    min-width: 680px;
+}
+
+.admin-users__table thead th {
+    background: #f8f9fc;
+    border-bottom: 1px solid #e8ebf2;
+    color: #788294;
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    padding: 0.95rem 1rem;
+    text-transform: uppercase;
+}
+
+.admin-users__table tbody td {
+    border-color: #edf0f5;
+    color: #47556b;
+    font-size: 0.84rem;
+    padding: 0.8rem 1rem;
+    vertical-align: middle;
+}
+
+.admin-users__table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-users__role-row th {
+    background: #f8f9fc;
+    border: 0;
+    border-top: 1px solid #e8ebf2;
+    color: var(--admin-ink);
+    font-size: 0.8rem;
+    font-weight: 750;
+    padding: 0.7rem 1rem;
+}
+
+.admin-users__role-marker {
+    background: var(--admin-blue);
+    border-radius: 999px;
+    display: inline-block;
+    height: 0.48rem;
+    margin-right: 0.45rem;
+    vertical-align: 1px;
+    width: 0.48rem;
+}
+
+.admin-users__role-row--owner .admin-users__role-marker {
+    background: #f0a43b;
+}
+
+.admin-users__role-row--mekanik .admin-users__role-marker {
+    background: #20a46e;
+}
+
+.admin-users__role-row--user .admin-users__role-marker {
+    background: #8256d0;
+}
+
+.admin-users__role-count {
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 999px;
+    color: #687386;
+    font-size: 0.7rem;
+    margin-left: 0.35rem;
+    padding: 0.12rem 0.45rem;
+}
+
+.admin-users__avatar {
+    align-items: center;
+    background: #eef4ff;
+    border-radius: 50%;
+    color: var(--admin-blue);
+    display: inline-flex;
+    font-size: 0.72rem;
+    font-weight: 750;
+    height: 2rem;
+    justify-content: center;
+    margin-right: 0.55rem;
+    vertical-align: middle;
+    width: 2rem;
+}
+
+.admin-users__name {
+    color: var(--admin-ink);
+    font-weight: 650;
+}
+
+.admin-users__role-badge {
+    background: #eef4ff;
+    border-radius: 999px;
+    color: var(--admin-blue);
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 0.35rem 0.65rem;
+}
+
+.admin-users__role-badge--owner {
+    background: #fff4e8;
+    color: #ad6500;
+}
+
+.admin-users__role-badge--mekanik {
+    background: #eaf8f1;
+    color: #13784d;
+}
+
+.admin-users__role-badge--user {
+    background: #f2edff;
+    color: #6740b4;
+}
+
+.admin-users__actions {
+    white-space: nowrap;
+}
+
+.admin-users__edit-button {
+    background: #eef4ff;
+    border-color: #dbe6ff;
+    color: var(--admin-blue);
+    font-weight: 700;
+    margin-right: 0.25rem;
+}
+
+.admin-users__edit-button:hover {
+    background: var(--admin-blue);
+    border-color: var(--admin-blue);
+    color: #fff;
+}
+
+.admin-users__delete-button {
+    background: #fff0f0;
+    border-color: #ffe0e0;
+    color: #c83d4b;
+    font-weight: 700;
+}
+
+.admin-users__delete-button:hover {
+    background: #c83d4b;
+    border-color: #c83d4b;
+    color: #fff;
+}
+
+.admin-users__empty {
+    color: #687386 !important;
+    padding: 2.5rem 1rem !important;
+    text-align: center;
+}
+
+@media (max-width: 1199.98px) {
+    .admin-users__summary {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .admin-users__summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .admin-users {
+        padding-top: 0.25rem;
+    }
+
+    .admin-users__summary {
+        gap: 0.55rem;
+    }
+
+    .admin-users__stat {
+        gap: 0.55rem;
+        padding: 0.7rem;
+    }
+
+    .admin-users__stat-icon {
+        flex-basis: 2.1rem;
+        height: 2.1rem;
+        width: 2.1rem;
+    }
+
+    .admin-users__list-heading {
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-users *,
+    .admin-users *::before,
+    .admin-users *::after {
+        transition: none !important;
+    }
+}

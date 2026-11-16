@@ -1,0 +1,546 @@
+.owner-dashboard {
+    --owner-ink: #202b3a;
+    --owner-blue: #123fc5;
+    --owner-orange: #ff6b1a;
+    padding-top: 1.25rem;
+}
+
+.content.no-sidebar {
+    margin-left: 0;
+}
+
+.owner-chart {
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 1rem;
+    box-shadow: 0 3px 12px rgba(22, 34, 51, 0.04);
+    margin-bottom: 1.5rem;
+    padding: 1.5rem 1.75rem;
+}
+
+.owner-chart__heading {
+    align-items: flex-start;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.owner-chart__heading h1 {
+    color: var(--owner-ink);
+    font-size: 1.45rem;
+    font-weight: 750;
+    margin: 0 0 0.3rem;
+}
+
+.owner-chart__heading p:last-child {
+    color: #687386;
+    font-size: 0.88rem;
+    margin: 0;
+}
+
+.owner-chart__legend {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+    justify-content: flex-end;
+}
+
+.owner-chart__legend span {
+    align-items: center;
+    color: #687386;
+    display: inline-flex;
+    font-size: 0.76rem;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+.owner-chart__dot {
+    border-radius: 50%;
+    display: inline-block;
+    height: 0.6rem;
+    width: 0.6rem;
+}
+
+.owner-chart__dot--daily,
+.owner-chart__bar--daily {
+    background: #f3a448;
+}
+
+.owner-chart__dot--monthly,
+.owner-chart__bar--monthly {
+    background: var(--owner-blue);
+}
+
+.owner-chart__dot--yearly,
+.owner-chart__bar--yearly {
+    background: #20a46e;
+}
+
+.owner-chart__plot {
+    overflow: visible;
+}
+
+.owner-chart__rows {
+    border-bottom: 1px solid #e8ebf2;
+}
+
+.owner-chart__row {
+    align-items: center;
+    border-top: 1px solid #edf0f5;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(110px, 0.32fr) minmax(0, 1fr);
+    min-height: 3.5rem;
+    padding: 0.6rem 0.75rem;
+}
+
+.owner-chart__service {
+    color: var(--owner-ink);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.owner-chart__bars {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.owner-chart__bar-track {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    min-height: 0.5rem;
+    position: relative;
+}
+
+.owner-chart__bar {
+    border-radius: 999px;
+    display: block;
+    height: 0.45rem;
+    min-width: 0;
+    transition: width 0.35s ease;
+}
+
+.owner-chart__bar-value {
+    color: #687386;
+    font-size: 0.7rem;
+    line-height: 1;
+    position: absolute;
+    right: 0;
+    transform: translateX(100%);
+    width: 2rem;
+}
+
+.owner-hero {
+    align-items: center;
+    background: linear-gradient(115deg, #fff 0%, #fff 53%, #edf2ff 100%);
+    border: 1px solid #e8ebf2;
+    border-radius: 1rem;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+    margin-bottom: 1.5rem;
+    min-height: 250px;
+    overflow: hidden;
+    padding: 2rem 2.5rem;
+}
+
+.owner-hero__copy {
+    position: relative;
+    z-index: 1;
+}
+
+.owner-hero__eyebrow,
+.owner-services__eyebrow {
+    color: var(--owner-blue);
+    font-size: 0.74rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+}
+
+.owner-hero__copy h1 {
+    color: #17172f;
+    font-size: clamp(2rem, 3.8vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+}
+
+.owner-hero__copy > p:not(.owner-hero__eyebrow) {
+    color: #687386;
+    font-size: 1rem;
+    margin-bottom: 1.15rem;
+    max-width: 550px;
+}
+
+.owner-hero__note {
+    align-items: center;
+    color: var(--owner-ink);
+    display: flex;
+    font-size: 0.88rem;
+    font-weight: 650;
+    gap: 0.6rem;
+}
+
+.owner-hero__note-icon {
+    align-items: center;
+    background: rgba(18, 63, 197, 0.1);
+    border-radius: 50%;
+    color: var(--owner-blue);
+    display: inline-flex;
+    font-size: 0.95rem;
+    height: 1.7rem;
+    justify-content: center;
+    width: 1.7rem;
+}
+
+.owner-hero__visual {
+    height: 210px;
+    justify-self: stretch;
+    position: relative;
+}
+
+.owner-hero__shape {
+    position: absolute;
+}
+
+.owner-hero__shape--blue {
+    background: var(--owner-blue);
+    border-radius: 50%;
+    height: 200px;
+    right: 12%;
+    top: -10%;
+    width: 200px;
+}
+
+.owner-hero__shape--orange {
+    border: 4px solid var(--owner-orange);
+    border-left-color: transparent;
+    border-radius: 50%;
+    bottom: -5%;
+    height: 150px;
+    right: 0;
+    transform: rotate(-18deg);
+    width: 150px;
+}
+
+.owner-hero__visual img {
+    border: 5px solid #fff;
+    border-radius: 0.9rem;
+    box-shadow: 0 12px 30px rgba(20, 32, 54, 0.18);
+    height: 160px;
+    object-fit: cover;
+    position: absolute;
+    right: 8%;
+    top: 10%;
+    transform: rotate(2deg);
+    width: min(76%, 340px);
+    z-index: 1;
+}
+
+.owner-hero__visual-label {
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 0.75rem;
+    bottom: -2%;
+    box-shadow: 0 8px 24px rgba(20, 32, 54, 0.12);
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    padding: 0.6rem 0.9rem;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+}
+
+.owner-hero__visual-label span {
+    color: #687386;
+    font-size: 0.67rem;
+}
+
+.owner-hero__visual-label strong {
+    color: var(--owner-ink);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.owner-periods {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 2rem;
+}
+
+.owner-period-card {
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 0.85rem;
+    box-shadow: 0 3px 12px rgba(22, 34, 51, 0.04);
+    min-height: 160px;
+    overflow: hidden;
+    padding: 1.1rem 1.25rem 0.85rem;
+    position: relative;
+}
+
+.owner-period-card__top {
+    align-items: center;
+    display: flex;
+    gap: 0.7rem;
+}
+
+.owner-period-card__icon {
+    align-items: center;
+    background: #fff4e8;
+    border-radius: 0.65rem;
+    color: #d97706;
+    display: flex;
+    height: 2.5rem;
+    justify-content: center;
+    width: 2.5rem;
+}
+
+.owner-period-card__icon svg {
+    height: 1.35rem;
+    width: 1.35rem;
+}
+
+.owner-period-card--monthly .owner-period-card__icon {
+    background: #eef4ff;
+    color: var(--owner-blue);
+}
+
+.owner-period-card--yearly .owner-period-card__icon {
+    background: #eaf8f1;
+    color: #15945d;
+}
+
+.owner-period-card__label {
+    color: #687386;
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.owner-period-card__value {
+    color: var(--owner-ink);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin: 0.8rem 0 0.25rem;
+}
+
+.owner-period-card__caption {
+    color: #8791a1;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.owner-period-card__bar {
+    background: #f3a448;
+    bottom: 0;
+    height: 3px;
+    left: 0;
+    position: absolute;
+    right: 35%;
+}
+
+.owner-period-card--monthly .owner-period-card__bar {
+    background: var(--owner-blue);
+    right: 25%;
+}
+
+.owner-period-card--yearly .owner-period-card__bar {
+    background: #20a46e;
+    right: 15%;
+}
+
+.owner-services {
+    margin-bottom: 1rem;
+}
+
+.owner-services__heading {
+    align-items: end;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.owner-services__eyebrow {
+    color: var(--owner-orange);
+    font-size: 0.68rem;
+    margin-bottom: 0.25rem;
+}
+
+.owner-services__heading h2 {
+    color: var(--owner-ink);
+    font-size: 1.4rem;
+    font-weight: 750;
+    margin: 0 0 0.3rem;
+}
+
+.owner-services__heading p:last-child {
+    color: #687386;
+    font-size: 0.88rem;
+    margin: 0;
+}
+
+.owner-services__badge {
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 999px;
+    color: #687386;
+    font-size: 0.8rem;
+    font-weight: 650;
+    padding: 0.45rem 0.8rem;
+    white-space: nowrap;
+}
+
+.owner-services__card {
+    border-radius: 0.85rem;
+    overflow: hidden;
+}
+
+.owner-services__table {
+    min-width: 560px;
+}
+
+.owner-services__table thead th {
+    background: #f8f9fc;
+    border-bottom: 1px solid #e8ebf2;
+    color: #788294;
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    padding: 1rem 1.15rem;
+    text-transform: uppercase;
+}
+
+.owner-services__table tbody td,
+.owner-services__table tbody th {
+    border-color: #edf0f5;
+    color: #47556b;
+    font-size: 0.86rem;
+    padding: 0.95rem 1.15rem;
+    vertical-align: middle;
+}
+
+.owner-services__table tbody tr:last-child td,
+.owner-services__table tbody tr:last-child th {
+    border-bottom: 0;
+}
+
+.owner-services__table tbody th {
+    color: var(--owner-ink);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.owner-services__service-icon {
+    align-items: center;
+    background: #f1f4fa;
+    border-radius: 0.5rem;
+    color: var(--owner-blue);
+    display: inline-flex;
+    font-size: 0.9rem;
+    height: 1.8rem;
+    justify-content: center;
+    margin-right: 0.55rem;
+    width: 1.8rem;
+}
+
+@media (max-width: 767.98px) {
+    .owner-hero {
+        grid-template-columns: minmax(0, 1fr) minmax(190px, 0.75fr);
+        padding: 1.5rem;
+    }
+
+    .owner-hero__visual {
+        height: 180px;
+    }
+
+    .owner-hero__shape--blue {
+        height: 155px;
+        width: 155px;
+    }
+
+    .owner-hero__visual img {
+        height: 140px;
+        width: 88%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .owner-dashboard {
+        padding-top: 0.75rem;
+    }
+
+    .owner-chart {
+        padding: 1.1rem;
+    }
+
+    .owner-chart__heading {
+        flex-direction: column;
+    }
+
+    .owner-chart__legend {
+        justify-content: flex-start;
+    }
+
+    .owner-chart__row {
+        gap: 0.55rem;
+        grid-template-columns: minmax(78px, 0.3fr) minmax(0, 1fr);
+        padding: 0.6rem 0.5rem;
+    }
+
+    .owner-chart__service {
+        font-size: 0.73rem;
+    }
+
+    .owner-hero {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 1.25rem;
+    }
+
+    .owner-hero__copy h1 {
+        font-size: 2rem;
+    }
+
+    .owner-hero__visual {
+        height: 190px;
+    }
+
+    .owner-hero__visual img {
+        height: 150px;
+        right: 8%;
+        width: 78%;
+    }
+
+    .owner-periods {
+        gap: 0.65rem;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .owner-period-card {
+        min-height: 135px;
+    }
+
+    .owner-services__heading {
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .owner-dashboard *,
+    .owner-dashboard *::before,
+    .owner-dashboard *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+}

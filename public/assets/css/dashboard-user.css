@@ -1,0 +1,636 @@
+.user-dashboard {
+    --service-accent: #ff6b1a;
+    --service-ink: #202b3a;
+    --service-blue: #123fc5;
+    padding-top: 1.25rem;
+}
+
+.content.no-sidebar {
+    margin-left: 0;
+}
+
+.user-header__navigation {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.75rem, 2vw, 2rem);
+}
+
+.user-header__brand {
+    color: var(--service-ink, #202b3a);
+    font-size: 1rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.user-header__link {
+    color: #647084;
+    font-size: 0.9rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.user-header__link:hover,
+.user-header__link.is-active {
+    color: var(--service-blue, #123fc5);
+}
+
+.user-booking-page {
+    margin: 0 auto;
+    max-width: 1440px;
+    min-height: calc(100vh - 180px);
+}
+
+.user-booking-page__heading {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin: 1.5rem 0 1.75rem;
+}
+
+.user-booking-page__heading h1 {
+    color: var(--service-ink);
+    font-size: clamp(1.6rem, 3vw, 2.15rem);
+    font-weight: 750;
+    margin-bottom: 0.35rem;
+}
+
+.user-booking-page__heading p:last-child {
+    color: #687386;
+    margin-bottom: 0;
+}
+
+.user-booking-page__back {
+    color: var(--service-blue);
+    flex: 0 0 auto;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.user-booking-page__back:hover {
+    color: #0c2e99;
+}
+
+.user-hero {
+    align-items: center;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    margin: 0 auto 3.5rem;
+    max-width: 1160px;
+    min-height: 430px;
+    overflow: hidden;
+    padding: 1.5rem 1rem 1.5rem 2rem;
+}
+
+.user-hero__copy {
+    position: relative;
+    z-index: 1;
+}
+
+.user-hero__eyebrow {
+    color: var(--service-blue);
+    font-size: 0.8rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.user-hero__copy > h1 {
+    color: #17172f;
+    font-size: clamp(2.15rem, 4vw, 3.65rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1.08;
+    margin-bottom: 1rem;
+    max-width: 680px;
+}
+
+.user-hero__tagline {
+    color: var(--service-blue);
+    font-size: clamp(0.9rem, 1.7vw, 1.15rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin-bottom: 2rem;
+}
+
+.user-hero__callout {
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 0.85rem;
+    max-width: 600px;
+    padding: 1.25rem;
+}
+
+.user-hero__callout h2 {
+    color: var(--service-ink);
+    font-size: 1.12rem;
+    font-weight: 750;
+    margin-bottom: 0.45rem;
+}
+
+.user-hero__callout p {
+    color: #596477;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.user-hero__button {
+    align-items: center;
+    background: var(--service-accent);
+    border-radius: 0.35rem;
+    color: #fff;
+    display: flex;
+    font-weight: 750;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.7rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.user-hero__button:hover,
+.user-hero__button:focus-visible {
+    background: #e85a0a;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.user-hero__visual {
+    height: 390px;
+    min-width: 0;
+    position: relative;
+}
+
+.user-hero__shape {
+    position: absolute;
+}
+
+.user-hero__shape--blue {
+    background: var(--service-blue);
+    border-radius: 50%;
+    height: 245px;
+    right: 12%;
+    top: 2%;
+    width: 245px;
+}
+
+.user-hero__shape--orange {
+    border: 4px solid var(--service-accent);
+    border-left-color: transparent;
+    border-radius: 50%;
+    height: 270px;
+    right: 2%;
+    top: 30%;
+    transform: rotate(-18deg);
+    width: 270px;
+}
+
+.user-hero__photo {
+    border: 4px solid #fff;
+    border-radius: 0.8rem;
+    box-shadow: 0 12px 30px rgba(20, 32, 54, 0.15);
+    height: 48%;
+    object-fit: cover;
+    position: absolute;
+    width: 49%;
+    z-index: 1;
+}
+
+.user-hero__photo--1 {
+    height: 57%;
+    left: 7%;
+    top: 12%;
+    width: 62%;
+}
+
+.user-hero__photo--2 {
+    height: 45%;
+    right: 2%;
+    top: 24%;
+    width: 43%;
+}
+
+.user-hero__photo--3 {
+    bottom: 4%;
+    height: 40%;
+    left: 1%;
+    width: 48%;
+}
+
+.user-hero__photo--4 {
+    bottom: 0;
+    height: 38%;
+    right: 5%;
+    width: 50%;
+}
+
+.service-showcase {
+    margin-bottom: 3.25rem;
+}
+
+.service-showcase__heading {
+    margin: 0 auto 2rem;
+    max-width: 760px;
+    text-align: center;
+}
+
+.service-showcase__eyebrow {
+    color: var(--service-accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.55rem;
+    text-transform: uppercase;
+}
+
+.service-showcase__heading h1 {
+    color: var(--service-ink);
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    font-weight: 750;
+    line-height: 1.25;
+    margin-bottom: 0.65rem;
+    text-transform: uppercase;
+}
+
+.service-showcase__heading > p:last-child {
+    color: #687386;
+    margin-bottom: 0;
+}
+
+.service-carousel {
+    position: relative;
+}
+
+.service-carousel__track {
+    display: flex;
+    gap: 1.1rem;
+    overflow-x: auto;
+    padding: 0.25rem 0.15rem 0.8rem;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+}
+
+.service-carousel__track:focus-visible {
+    border-radius: 0.75rem;
+    outline: 2px solid var(--service-accent);
+    outline-offset: 3px;
+}
+
+.service-card {
+    flex: 0 0 calc((100% - 3.3rem) / 4);
+    min-width: 0;
+    scroll-snap-align: start;
+}
+
+.service-card__visual {
+    background: #e6e9ed;
+    border-radius: 0.8rem;
+    height: 218px;
+    overflow: hidden;
+    position: relative;
+}
+
+.service-card__visual::after {
+    background: linear-gradient(90deg, rgba(20, 29, 42, 0.82), rgba(20, 29, 42, 0.28) 64%, rgba(20, 29, 42, 0.08));
+    content: "";
+    inset: 0;
+    position: absolute;
+}
+
+.service-card__visual img {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+    width: 100%;
+}
+
+.service-card:hover .service-card__visual img {
+    transform: scale(1.04);
+}
+
+.service-card__overlay {
+    align-items: flex-start;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    inset: 0;
+    justify-content: center;
+    padding: 1.15rem;
+    position: absolute;
+    z-index: 1;
+}
+
+.service-card__eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    opacity: 0.86;
+}
+
+.service-card__overlay h2 {
+    color: #fff;
+    font-size: 1.35rem;
+    font-weight: 750;
+    margin: 0.25rem 0 0.45rem;
+}
+
+.service-card__price-note {
+    font-size: 0.72rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.9;
+}
+
+.service-card__button {
+    background: var(--service-accent);
+    border-radius: 0.35rem;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.55rem 0.8rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.service-card__button:hover,
+.service-card__button:focus-visible {
+    background: #e85a0a;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.service-card__description {
+    color: #687386;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    margin: 0.7rem 0 0;
+    min-height: 2.5em;
+}
+
+.workshop-contact {
+    margin: 0 auto 2rem;
+    max-width: 1160px;
+    padding: 1.25rem 0 0.5rem;
+}
+
+.workshop-contact__heading {
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.workshop-contact__heading h2 {
+    color: var(--service-ink);
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+    font-weight: 750;
+    margin-bottom: 0;
+}
+
+.workshop-contact__details {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workshop-contact__card {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e8ebf2;
+    border-radius: 0.8rem;
+    display: flex;
+    gap: 1rem;
+    min-height: 112px;
+    padding: 1.25rem;
+}
+
+.workshop-contact__icon {
+    align-items: center;
+    background: rgba(18, 63, 197, 0.08);
+    border-radius: 0.7rem;
+    color: var(--service-blue);
+    display: flex;
+    flex: 0 0 2.85rem;
+    height: 2.85rem;
+    justify-content: center;
+}
+
+.workshop-contact__icon svg {
+    height: 1.45rem;
+    width: 1.45rem;
+}
+
+.workshop-contact__card h3 {
+    color: var(--service-ink);
+    font-size: 0.95rem;
+    font-weight: 750;
+    margin: 0 0 0.35rem;
+}
+
+.workshop-contact__card address,
+.workshop-contact__card a {
+    color: #687386;
+    font-size: 0.9rem;
+    font-style: normal;
+    margin: 0;
+}
+
+.workshop-contact__card a {
+    color: var(--service-blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.workshop-contact__card a:hover {
+    text-decoration: underline;
+}
+
+.service-carousel__arrow {
+    align-items: center;
+    background: #fff;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: 0 2px 9px rgba(22, 34, 51, 0.2);
+    color: var(--service-ink);
+    display: flex;
+    height: 2.65rem;
+    justify-content: center;
+    position: absolute;
+    top: 88px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    width: 2.65rem;
+    z-index: 2;
+}
+
+.service-carousel__arrow:hover {
+    background: var(--service-accent);
+    color: #fff;
+}
+
+.service-carousel__arrow span {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.service-carousel__arrow--previous {
+    left: -0.75rem;
+}
+
+.service-carousel__arrow--next {
+    right: -0.75rem;
+}
+
+.user-dashboard__booking-heading {
+    margin: 0.5rem 0 1.25rem;
+    scroll-margin-top: 1.5rem;
+}
+
+.user-dashboard__booking-heading h2 {
+    color: var(--service-ink);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+}
+
+.user-dashboard__booking-heading p {
+    color: #687386;
+    margin-bottom: 0;
+}
+
+.user-dashboard__booking-row .card {
+    border-radius: 0.7rem;
+}
+
+@media (max-width: 1199.98px) {
+    .user-hero {
+        gap: 0.5rem;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        padding-left: 1rem;
+    }
+
+    .user-hero__visual {
+        height: 340px;
+    }
+
+    .service-card {
+        flex-basis: calc((100% - 2.2rem) / 3);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .user-hero {
+        grid-template-columns: minmax(0, 1fr) minmax(250px, 0.85fr);
+        min-height: 380px;
+    }
+
+    .user-hero__visual {
+        height: 300px;
+    }
+
+    .user-hero__shape--blue {
+        height: 190px;
+        width: 190px;
+    }
+
+    .user-hero__shape--orange {
+        height: 210px;
+        width: 210px;
+    }
+
+    .service-card {
+        flex-basis: calc((100% - 1.1rem) / 2);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .user-dashboard {
+        padding-top: 0.75rem;
+    }
+
+    .user-header__navigation {
+        gap: 0.65rem;
+    }
+
+    .user-header__brand {
+        font-size: 0.8rem;
+    }
+
+    .user-header__link {
+        font-size: 0.75rem;
+    }
+
+    .user-booking-page__heading {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+
+    .user-hero {
+        gap: 0;
+        grid-template-columns: minmax(0, 1fr);
+        margin-bottom: 2.5rem;
+        padding: 0.5rem 0 0;
+    }
+
+    .user-hero__copy > h1 {
+        font-size: clamp(2rem, 10vw, 2.8rem);
+    }
+
+    .user-hero__tagline {
+        margin-bottom: 1.25rem;
+    }
+
+    .user-hero__callout {
+        padding: 1rem;
+    }
+
+    .user-hero__visual {
+        height: 300px;
+        margin-top: 1rem;
+    }
+
+    .service-showcase {
+        margin-bottom: 2.5rem;
+    }
+
+    .service-showcase__heading {
+        margin-bottom: 1.4rem;
+        text-align: left;
+    }
+
+    .service-card {
+        flex-basis: 84%;
+    }
+
+    .service-carousel__arrow--previous {
+        left: -0.45rem;
+    }
+
+    .service-carousel__arrow--next {
+        right: -0.45rem;
+    }
+
+    .workshop-contact__details {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .workshop-contact__heading {
+        text-align: left;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .service-carousel__track {
+        scroll-behavior: auto;
+    }
+
+    .service-card__visual img,
+    .service-card__button,
+    .user-hero__button {
+        transition: none;
+    }
+}

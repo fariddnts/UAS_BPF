@@ -20,16 +20,19 @@
 
     {{-- Start CSS --}}
     @include('layout.admin.css')
+    @stack('styles')
     {{-- End CSS --}}
 </head>
 
 <body>
 
-    {{-- Start Sidebar --}}
-    @include('layout.admin.sidebar')
-    {{-- End Sidebar --}}
+    @if(!auth()->user()?->hasRole('user', 'mekanik', 'owner'))
+        {{-- Start Sidebar --}}
+        @include('layout.admin.sidebar')
+        {{-- End Sidebar --}}
+    @endif
 
-    <main class="content">
+    <main class="content {{ auth()->user()?->hasRole('user', 'mekanik', 'owner') ? 'no-sidebar' : '' }}">
 
         {{-- Start Header --}}
         @include('layout.admin.header')

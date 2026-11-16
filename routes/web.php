@@ -27,6 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // User: memesan jadwal servis
+    Route::get('/booking/create', [BookingController::class, 'create'])
+        ->middleware('role:user')
+        ->name('booking.create');
+
     Route::post('/booking', [BookingController::class, 'store'])
         ->middleware('role:user')
         ->name('booking.store');

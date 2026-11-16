@@ -8,6 +8,21 @@ use Illuminate\Validation\Rule;
 
 class BookingController extends Controller
 {
+    public function create(Request $request)
+    {
+        $selectedService = $request->query('jenis_layanan');
+
+        if (! is_string($selectedService) || ! array_key_exists($selectedService, Booking::LAYANAN)) {
+            $selectedService = '';
+        }
+
+        $bookings = Booking::where('user_id', $request->user()->id)
+            ->latest()
+            ->get();
+
+        return view('dashboard.booking', compact('bookings', 'selectedService'));
+    }
+
     // Dipakai role user: memesan jadwal
     public function store(Request $request)
     {

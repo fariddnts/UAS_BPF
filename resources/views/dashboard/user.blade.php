@@ -1,107 +1,171 @@
 @extends('layout.admin.app')
 
-@section('title', 'Pesan Jadwal Servis')
+@section('title', 'Beranda')
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard-user.css') }}">
+@endpush
 
 @section('content')
-<div class="py-4">
-    <h1 class="h4">Pesan Jadwal Servis</h1>
-</div>
+<div class="user-dashboard">
+    @if(session('success'))
+        <div class="alert alert-success" role="status">{{ session('success') }}</div>
+    @endif
 
-@if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-@endif
+    @php
+        $heroPhotos = [
+            ['image' => 'service-highlights/routine.jpg', 'alt' => 'Mekanik memeriksa kendaraan di bengkel'],
+            ['image' => 'service-highlights/sparepart.jpg', 'alt' => 'Motor yang siap menjalani perawatan'],
+            ['image' => 'service-highlights/oil.jpg', 'alt' => 'Pemeriksaan mesin kendaraan'],
+            ['image' => 'service-highlights/other.jpg', 'alt' => 'Detail komponen kendaraan'],
+        ];
+        $serviceHighlights = [
+            [
+                'eyebrow' => 'Perawatan mesin',
+                'title' => 'Ganti Oli',
+                'description' => 'Jaga performa mesin dengan penggantian oli berkala.',
+                'service' => 'ganti_oli',
+                'image' => 'service-highlights/oil.jpg',
+                'alt' => 'Pemeriksaan mesin kendaraan di bengkel',
+            ],
+            [
+                'eyebrow' => 'Komponen motor',
+                'title' => 'Ban & Sparepart',
+                'description' => 'Periksa kondisi ban dan komponen motor lainnya.',
+                'service' => 'ganti_sparepart',
+                'image' => 'service-highlights/sparepart.jpg',
+                'alt' => 'Sepeda motor yang siap menjalani perawatan',
+            ],
+            [
+                'eyebrow' => 'Cek menyeluruh',
+                'title' => 'Servis Rutin',
+                'description' => 'Bantu motor tetap nyaman untuk aktivitas harian.',
+                'service' => 'servis_rutin',
+                'image' => 'service-highlights/routine.jpg',
+                'alt' => 'Mekanik sedang memeriksa kendaraan',
+            ],
+            [
+                'eyebrow' => 'Penggantian komponen',
+                'title' => 'Aki & Lainnya',
+                'description' => 'Sampaikan kebutuhan penggantian komponen motor.',
+                'service' => 'lainnya',
+                'image' => 'service-highlights/other.jpg',
+                'alt' => 'Detail sepeda motor',
+            ],
+        ];
+    @endphp
 
-@if($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    <section class="user-hero" aria-labelledby="user-hero-title">
+        <div class="user-hero__copy">
+            <p class="user-hero__eyebrow">Bengkel Syifa · Perawatan Motor</p>
+            <h1 id="user-hero-title">Servis Motor Lebih Nyaman Bersama Bengkel Syifa</h1>
+            <p class="user-hero__tagline">PERAWATAN TEPERCAYA, JADWAL LEBIH MUDAH</p>
 
-<div class="row">
-    <div class="col-lg-5 mb-4">
-        <div class="card border-0 shadow p-4">
-            <form action="{{ route('booking.store') }}" method="POST">
-                @csrf
-
-                <div class="mb-3">
-                    <label class="form-label" for="plat_nomor">Plat Nomor</label>
-                    <input type="text" id="plat_nomor" name="plat_nomor" class="form-control"
-                           value="{{ old('plat_nomor') }}" placeholder="Contoh: BH 1234 AB" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label" for="jenis_motor">Jenis Motor</label>
-                    <input type="text" id="jenis_motor" name="jenis_motor" class="form-control"
-                           value="{{ old('jenis_motor') }}" placeholder="Contoh: Honda Beat 2020" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label" for="jenis_layanan">Jenis Layanan</label>
-                    <select id="jenis_layanan" name="jenis_layanan" class="form-select" required>
-                        <option value="">Pilih layanan</option>
-                        @foreach(\App\Models\Booking::LAYANAN as $value => $label)
-                            <option value="{{ $value }}" @selected(old('jenis_layanan') === $value)>{{ $label }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label" for="keluhan">Keluhan (opsional)</label>
-                    <textarea id="keluhan" name="keluhan" rows="3" class="form-control">{{ old('keluhan') }}</textarea>
-                </div>
-
-                <div class="row">
-                    <div class="col-7 mb-3">
-                        <label class="form-label" for="tanggal_booking">Tanggal</label>
-                        <input type="date" id="tanggal_booking" name="tanggal_booking" class="form-control"
-                               min="{{ now()->toDateString() }}" value="{{ old('tanggal_booking') }}" required>
-                    </div>
-                    <div class="col-5 mb-3">
-                        <label class="form-label" for="jam_booking">Jam</label>
-                        <input type="time" id="jam_booking" name="jam_booking" class="form-control"
-                               min="08:00" max="16:00" value="{{ old('jam_booking') }}" required>
-                    </div>
-                </div>
-                <p class="small text-muted">Jam layanan 08:00 sampai 16:00. Estimasi pengerjaan bisa berubah sesuai kondisi motor.</p>
-
-                <button type="submit" class="btn btn-primary w-100">Pesan Jadwal</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="col-lg-7">
-        <div class="card border-0 shadow">
-            <div class="card-header"><h2 class="h5 mb-0">Pesanan Saya</h2></div>
-            <div class="table-responsive">
-                <table class="table table-centered mb-0">
-                    <thead>
-                        <tr>
-                            <th>Jadwal</th>
-                            <th>Motor</th>
-                            <th>Layanan</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($bookings as $b)
-                            <tr>
-                                <td>{{ $b->tanggal_booking->format('d M Y') }}<br>
-                                    <small>{{ substr($b->jam_booking, 0, 5) }}</small></td>
-                                <td>{{ $b->jenis_motor }}<br><small>{{ $b->plat_nomor }}</small></td>
-                                <td>{{ \App\Models\Booking::LAYANAN[$b->jenis_layanan] ?? $b->jenis_layanan }}</td>
-                                <td><span class="badge {{ $b->badgeClass() }}">{{ $b->statusLabel() }}</span></td>
-                            </tr>
-                        @empty
-                            <tr><td colspan="4" class="text-center py-4">Belum ada pesanan.</td></tr>
-                        @endforelse
-                    </tbody>
-                </table>
+            <div class="user-hero__callout">
+                <h2>Motor kamu butuh perawatan?</h2>
+                <p>Pilih layanan yang sesuai dan jadwalkan kunjunganmu dengan mudah.</p>
+                <a class="user-hero__button" href="{{ route('booking.create') }}">Pesan Jadwal Sekarang</a>
             </div>
         </div>
-    </div>
+
+        <div class="user-hero__visual" aria-label="Suasana perawatan kendaraan di bengkel">
+            <span class="user-hero__shape user-hero__shape--blue" aria-hidden="true"></span>
+            <span class="user-hero__shape user-hero__shape--orange" aria-hidden="true"></span>
+            @foreach($heroPhotos as $index => $photo)
+                <img
+                    class="user-hero__photo user-hero__photo--{{ $index + 1 }}"
+                    src="{{ asset('assets/images/' . $photo['image']) }}"
+                    alt="{{ $photo['alt'] }}"
+                    @if($index > 0) loading="lazy" @endif
+                >
+            @endforeach
+        </div>
+    </section>
+
+    <section class="service-showcase" aria-labelledby="service-showcase-title">
+        <div class="service-showcase__heading">
+            <p class="service-showcase__eyebrow">Bengkel Syifa</p>
+            <h1 id="service-showcase-title">Pilih Servis yang Tepat untuk Motormu</h1>
+            <p>Perawatan rutin atau ada keluhan? Pilih layanan, lalu tentukan jadwal yang nyaman.</p>
+        </div>
+
+        <div class="service-carousel" aria-label="Pilihan layanan servis">
+            <button class="service-carousel__arrow service-carousel__arrow--previous" type="button"
+                    aria-label="Lihat layanan sebelumnya" data-scroll-direction="-1">
+                <span aria-hidden="true">&larr;</span>
+            </button>
+            <div class="service-carousel__track" id="service-carousel-track" tabindex="0">
+                @foreach($serviceHighlights as $service)
+                    <article class="service-card">
+                        <div class="service-card__visual">
+                            <img
+                                src="{{ asset('assets/images/' . $service['image']) }}"
+                                alt="{{ $service['alt'] }}"
+                                loading="lazy"
+                            >
+                            <div class="service-card__overlay">
+                                <span class="service-card__eyebrow">{{ $service['eyebrow'] }}</span>
+                                <h2>{{ $service['title'] }}</h2>
+                                <span class="service-card__price-note">Tanyakan estimasi saat booking</span>
+                                <a class="service-card__button" href="{{ route('booking.create', ['jenis_layanan' => $service['service']]) }}">
+                                    Pesan Sekarang
+                                </a>
+                            </div>
+                        </div>
+                        <p class="service-card__description">{{ $service['description'] }}</p>
+                    </article>
+                @endforeach
+            </div>
+            <button class="service-carousel__arrow service-carousel__arrow--next" type="button"
+                    aria-label="Lihat layanan berikutnya" data-scroll-direction="1">
+                <span aria-hidden="true">&rarr;</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="workshop-contact" aria-labelledby="workshop-contact-title">
+        <div class="workshop-contact__heading">
+            <p class="service-showcase__eyebrow">Kunjungi atau hubungi kami</p>
+            <h2 id="workshop-contact-title">Bengkel Syifa siap membantu</h2>
+        </div>
+        <div class="workshop-contact__details">
+            <article class="workshop-contact__card">
+                <span class="workshop-contact__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" stroke-width="1.8"/>
+                        <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.8"/>
+                    </svg>
+                </span>
+                <div>
+                    <h3>Lokasi Bengkel</h3>
+                    <address>JL. Mawar, Kuansing, Riau, Indonesia</address>
+                </div>
+            </article>
+            <article class="workshop-contact__card">
+                <span class="workshop-contact__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M7 3h3l2 5-2.5 1.8a15 15 0 0 0 4.7 4.7L16 12l5 2v3c0 2.2-1.8 4-4 4C9.3 21 3 14.7 3 7c0-2.2 1.8-4 4-4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <div>
+                    <h3>Nomor Kontak</h3>
+                    <a href="tel:081314319622">0813-1431-9622</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
 </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.querySelectorAll('.service-carousel__arrow').forEach((arrow) => {
+            arrow.addEventListener('click', () => {
+                const track = document.getElementById('service-carousel-track');
+                const direction = Number(arrow.dataset.scrollDirection);
+                track.scrollBy({ left: direction * track.clientWidth * 0.8, behavior: 'smooth' });
+            });
+        });
+    </script>
+@endpush

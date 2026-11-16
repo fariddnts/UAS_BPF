@@ -10,13 +10,9 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        // User: form pesan jadwal dan riwayat pesanannya
+        // User: halaman beranda layanan
         if ($user->hasRole('user')) {
-            $bookings = Booking::where('user_id', $user->id)
-                ->latest()
-                ->get();
-
-            return view('dashboard.user', compact('bookings'));
+            return view('dashboard.user');
         }
 
         // Admin dan mekanik: daftar pekerjaan
