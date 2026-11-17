@@ -8,13 +8,11 @@
 
 @section('content')
 @php
-    $chartValues = [];
-    foreach ($bookingStats as $stats) {
-        foreach ($stats['services'] as $count) {
-            $chartValues[] = $count;
-        }
-    }
-    $chartMax = max(1, ...$chartValues);
+    $chartValues = array_values($bookingStats['yearly']['services']);
+    $chartMax = max($chartValues ?: [0]);
+    $chartStep = max(1, (int) ceil($chartMax / 5));
+    $chartAxisMax = $chartStep * 5;
+    $chartColors = ['#ff6685', '#55aee8', '#ffbd3e', '#46c4c5'];
     $periodStyles = [
         'daily' => 'daily',
         'monthly' => 'monthly',
@@ -26,38 +24,40 @@
     <section class="owner-chart" aria-labelledby="owner-chart-title">
         <div class="owner-chart__heading">
             <div>
-                <p class="owner-services__eyebrow">Performa bengkel</p>
-                <h1 id="owner-chart-title">Grafik Ringkasan Servis</h1>
-                <p>Perbandingan pesanan tiap jenis servis berdasarkan periode.</p>
-            </div>
-            <div class="owner-chart__legend" aria-label="Keterangan periode">
-                <span><i class="owner-chart__dot owner-chart__dot--daily"></i>Hari ini</span>
-                <span><i class="owner-chart__dot owner-chart__dot--monthly"></i>Bulan ini</span>
-                <span><i class="owner-chart__dot owner-chart__dot--yearly"></i>Tahun ini</span>
+                <h1 id="owner-chart-title"><span aria-hidden="true">📊</span> Distribusi Pesanan per Jenis Servis</h1>
+                <p>Jumlah pesanan untuk setiap jenis servis tahun ini.</p>
             </div>
         </div>
 
-        <div class="owner-chart__plot" role="img" aria-label="Grafik jumlah pesanan servis per jenis untuk hari ini, bulan ini, dan tahun ini">
-            <div class="owner-chart__rows">
-                @foreach($serviceTypes as $serviceKey => $serviceLabel)
-                    <div class="owner-chart__row">
-                        <div class="owner-chart__service">{{ $serviceLabel }}</div>
-                        <div class="owner-chart__bars">
-                            @foreach(['daily', 'monthly', 'yearly'] as $period)
-                                @php
-                                    $count = $bookingStats[$period]['services'][$serviceKey];
-                                    $barWidth = $count > 0 ? max(2, ($count / $chartMax) * 100) : 0;
-                                @endphp
-                                <div class="owner-chart__bar-track">
-                                    <span class="owner-chart__bar owner-chart__bar--{{ $period }}"
-                                          style="width: {{ $barWidth }}%"
-                                          aria-hidden="true"></span>
-                                    <span class="owner-chart__bar-value">{{ number_format($count) }}</span>
-                                </div>
-                            @endforeach
-                        </div>
+        <div class="owner-chart__plot" role="img" aria-label="Grafik batang jumlah pesanan tahun ini berdasarkan jenis servis">
+            <div class="owner-chart__graph">
+                <div class="owner-chart__scale" aria-hidden="true">
+                    @foreach(range(0, 5) as $tick)
+                        <span class="owner-chart__scale-label" style="top: {{ $tick * 20 }}%">
+                            {{ number_format($chartAxisMax - ($tick * $chartStep)) }}
+                        </span>
+                    @endforeach
+                </div>
+                <div class="owner-chart__canvas">
+                    @foreach(range(0, 5) as $tick)
+                        <span class="owner-chart__gridline" style="top: {{ $tick * 20 }}%" aria-hidden="true"></span>
+                    @endforeach
+                    <div class="owner-chart__columns" style="grid-template-columns: repeat({{ count($serviceTypes) }}, minmax(0, 1fr))">
+                        @foreach($serviceTypes as $serviceKey => $serviceLabel)
+                            @php
+                                $count = $bookingStats['yearly']['services'][$serviceKey];
+                                $barHeight = ($count / $chartAxisMax) * 100;
+                            @endphp
+                            <div class="owner-chart__column">
+                                <span class="owner-chart__bar"
+                                      style="height: {{ $barHeight }}%; --bar-color: {{ $chartColors[$loop->index % count($chartColors)] }}; {{ $count === 0 ? 'visibility: hidden;' : '' }}"
+                                      title="{{ $serviceLabel }}: {{ number_format($count) }} pesanan"
+                                      aria-hidden="true"></span>
+                                <span class="owner-chart__category">{{ $serviceLabel }}</span>
+                            </div>
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
     </section>
