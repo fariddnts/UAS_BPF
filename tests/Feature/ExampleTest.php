@@ -9,15 +9,16 @@ class ExampleTest extends TestCase
     /**
      * A basic test example.
      */
-    public function test_the_application_returns_a_successful_response(): void
+    public function test_homepage_shows_the_bengkel_syifa_landing_page(): void
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('Form Pertanyaan');
-        $response->assertSee('name="nama"', false);
-        $response->assertSee('name="email"', false);
-        $response->assertSee('name="pertanyaan"', false);
+        $response->assertSee('Bengkel Syifa');
+        $response->assertSee('Motor Anda,');
+        $response->assertSee('Empat sistem diperiksa dalam satu pemindaian');
+        $response->assertDontSee('Ruang kerja');
+        $response->assertDontSee('Buka dashboard admin');
     }
 
     /**

@@ -12,7 +12,22 @@ class DashboardController extends Controller
 
         // User: halaman beranda layanan
         if ($user->hasRole('user')) {
-            return view('dashboard.user');
+            $bookings = Booking::query()
+                ->where('user_id', $user->id)
+                ->with('mekanik')
+                ->orderByDesc('tanggal_booking')
+                ->orderByDesc('jam_booking')
+                ->get();
+
+            $currentBooking = $bookings->first(
+                fn (Booking $booking): bool => $booking->status !== 'finished'
+            ) ?? $bookings->first();
+            $serviceHistory = $bookings
+                ->filter(fn (Booking $booking): bool => $booking->status === 'finished'
+                    && $booking->id !== $currentBooking?->id)
+                ->take(5);
+
+            return view('dashboard.user', compact('currentBooking', 'serviceHistory'));
         }
 
         // Admin dan mekanik: daftar pekerjaan

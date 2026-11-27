@@ -1,171 +1,184 @@
-@extends('layout.admin.app')
+@extends('layout.user-dashboard')
 
-@section('title', 'Beranda')
+@section('title', 'Servis saya | Bengkel Syifa')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/dashboard-user.css') }}">
+@push('scripts')
+    <script src="{{ asset('assets/js/moto3d.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
 @endpush
 
 @section('content')
-<div class="user-dashboard">
-    @if(session('success'))
-        <div class="alert alert-success" role="status">{{ session('success') }}</div>
-    @endif
+@php
+    $currentStep = match ($currentBooking?->status) {
+        'pending' => 1,
+        'on_progress' => 2,
+        'finished' => 3,
+        default => 0,
+    };
+    $statusName = match ($currentBooking?->status) {
+        'pending' => 'Menunggu',
+        'on_progress' => 'Dikerjakan',
+        'finished' => 'Selesai',
+        default => null,
+    };
+    $serviceName = $currentBooking
+        ? (\App\Models\Booking::LAYANAN[$currentBooking->jenis_layanan] ?? $currentBooking->jenis_layanan)
+        : null;
+@endphp
 
-    @php
-        $heroPhotos = [
-            ['image' => 'service-highlights/routine.jpg', 'alt' => 'Mekanik memeriksa kendaraan di bengkel'],
-            ['image' => 'service-highlights/sparepart.jpg', 'alt' => 'Motor yang siap menjalani perawatan'],
-            ['image' => 'service-highlights/oil.jpg', 'alt' => 'Pemeriksaan mesin kendaraan'],
-            ['image' => 'service-highlights/other.jpg', 'alt' => 'Detail komponen kendaraan'],
-        ];
-        $serviceHighlights = [
-            [
-                'eyebrow' => 'Perawatan mesin',
-                'title' => 'Ganti Oli',
-                'description' => 'Jaga performa mesin dengan penggantian oli berkala.',
-                'service' => 'ganti_oli',
-                'image' => 'service-highlights/oil.jpg',
-                'alt' => 'Pemeriksaan mesin kendaraan di bengkel',
-            ],
-            [
-                'eyebrow' => 'Komponen motor',
-                'title' => 'Ban & Sparepart',
-                'description' => 'Periksa kondisi ban dan komponen motor lainnya.',
-                'service' => 'ganti_sparepart',
-                'image' => 'service-highlights/sparepart.jpg',
-                'alt' => 'Sepeda motor yang siap menjalani perawatan',
-            ],
-            [
-                'eyebrow' => 'Cek menyeluruh',
-                'title' => 'Servis Rutin',
-                'description' => 'Bantu motor tetap nyaman untuk aktivitas harian.',
-                'service' => 'servis_rutin',
-                'image' => 'service-highlights/routine.jpg',
-                'alt' => 'Mekanik sedang memeriksa kendaraan',
-            ],
-            [
-                'eyebrow' => 'Penggantian komponen',
-                'title' => 'Aki & Lainnya',
-                'description' => 'Sampaikan kebutuhan penggantian komponen motor.',
-                'service' => 'lainnya',
-                'image' => 'service-highlights/other.jpg',
-                'alt' => 'Detail sepeda motor',
-            ],
-        ];
-    @endphp
+<div class="customer-dashboard">
+    <aside class="customer-sidebar">
+        <a class="customer-brand" href="{{ route('dashboard') }}" aria-label="Bengkel Syifa, beranda">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <path d="M16 2 28 9v14l-12 7L4 23V9z" stroke="currentColor" stroke-width="2"/>
+                <circle cx="16" cy="16" r="5.5" stroke="currentColor" stroke-width="2"/>
+                <path d="M1 16h30" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Bengkel Syifa</span>
+        </a>
 
-    <section class="user-hero" aria-labelledby="user-hero-title">
-        <div class="user-hero__copy">
-            <p class="user-hero__eyebrow">Bengkel Syifa · Perawatan Motor</p>
-            <h1 id="user-hero-title">Servis Motor Lebih Nyaman Bersama Bengkel Syifa</h1>
-            <p class="user-hero__tagline">PERAWATAN TEPERCAYA, JADWAL LEBIH MUDAH</p>
+        <nav class="customer-nav" aria-label="Menu pelanggan">
+            <a class="is-active" href="#service-status" aria-current="page">Servis saya</a>
+            <a href="{{ route('booking.create') }}">Booking</a>
+            <a href="#service-history">Riwayat</a>
+            <a href="#vehicle-details">Kendaraan</a>
+        </nav>
 
-            <div class="user-hero__callout">
-                <h2>Motor kamu butuh perawatan?</h2>
-                <p>Pilih layanan yang sesuai dan jadwalkan kunjunganmu dengan mudah.</p>
-                <a class="user-hero__button" href="{{ route('booking.create') }}">Pesan Jadwal Sekarang</a>
+        <div class="customer-profile">
+            <span class="customer-avatar" aria-hidden="true">{{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}</span>
+            <span class="customer-profile__name">
+                <strong>{{ auth()->user()->name }}</strong>
+                <small>Pelanggan</small>
+            </span>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button class="customer-logout" type="submit">Keluar</button>
+            </form>
+        </div>
+    </aside>
+
+    <main class="customer-main">
+        <header class="customer-heading">
+            <div>
+                <h1>Servis saya</h1>
+                <p>Halo {{ auth()->user()->name }}, pantau jadwal dan progres servis motor Anda.</p>
             </div>
-        </div>
+            <a class="customer-button customer-button--outline" href="{{ route('home') }}">
+                <span aria-hidden="true">↗</span>
+                Lihat animasi motor
+            </a>
+        </header>
 
-        <div class="user-hero__visual" aria-label="Suasana perawatan kendaraan di bengkel">
-            <span class="user-hero__shape user-hero__shape--blue" aria-hidden="true"></span>
-            <span class="user-hero__shape user-hero__shape--orange" aria-hidden="true"></span>
-            @foreach($heroPhotos as $index => $photo)
-                <img
-                    class="user-hero__photo user-hero__photo--{{ $index + 1 }}"
-                    src="{{ asset('assets/images/' . $photo['image']) }}"
-                    alt="{{ $photo['alt'] }}"
-                    @if($index > 0) loading="lazy" @endif
-                >
-            @endforeach
-        </div>
-    </section>
+        @if(session('success'))
+            <div class="customer-notice" role="status">{{ session('success') }}</div>
+        @endif
 
-    <section class="service-showcase" aria-labelledby="service-showcase-title">
-        <div class="service-showcase__heading">
-            <p class="service-showcase__eyebrow">Bengkel Syifa</p>
-            <h1 id="service-showcase-title">Pilih Servis yang Tepat untuk Motormu</h1>
-            <p>Perawatan rutin atau ada keluhan? Pilih layanan, lalu tentukan jadwal yang nyaman.</p>
-        </div>
+        <div class="customer-grid">
+            <section class="customer-card customer-status" id="service-status" aria-labelledby="service-status-title">
+                <header class="customer-status__heading">
+                    <div>
+                        @if($currentBooking)
+                            <h2 id="service-status-title">{{ $currentBooking->plat_nomor }}</h2>
+                            <p>{{ $serviceName }}@if($currentBooking->mekanik), mekanik {{ $currentBooking->mekanik->name }}@endif</p>
+                        @else
+                            <h2 id="service-status-title">Belum ada servis berjalan</h2>
+                            <p>Booking servis untuk melihat progres motor Anda di sini.</p>
+                        @endif
+                    </div>
+                    @if($currentBooking)
+                        <span class="customer-status-pill customer-status-pill--{{ $currentBooking->status }}">
+                            <i aria-hidden="true"></i>{{ $statusName }}
+                        </span>
+                    @endif
+                </header>
 
-        <div class="service-carousel" aria-label="Pilihan layanan servis">
-            <button class="service-carousel__arrow service-carousel__arrow--previous" type="button"
-                    aria-label="Lihat layanan sebelumnya" data-scroll-direction="-1">
-                <span aria-hidden="true">&larr;</span>
-            </button>
-            <div class="service-carousel__track" id="service-carousel-track" tabindex="0">
-                @foreach($serviceHighlights as $service)
-                    <article class="service-card">
-                        <div class="service-card__visual">
-                            <img
-                                src="{{ asset('assets/images/' . $service['image']) }}"
-                                alt="{{ $service['alt'] }}"
-                                loading="lazy"
-                            >
-                            <div class="service-card__overlay">
-                                <span class="service-card__eyebrow">{{ $service['eyebrow'] }}</span>
-                                <h2>{{ $service['title'] }}</h2>
-                                <span class="service-card__price-note">Tanyakan estimasi saat booking</span>
-                                <a class="service-card__button" href="{{ route('booking.create', ['jenis_layanan' => $service['service']]) }}">
-                                    Pesan Sekarang
-                                </a>
-                            </div>
+                <canvas class="holo big customer-motor" data-part="rem" aria-label="Animasi motor dengan area rem disorot"></canvas>
+
+                @if($currentBooking)
+                    <ol class="customer-stepper" aria-label="Tahapan servis">
+                        @foreach(['Booking', 'Menunggu', 'Dikerjakan', 'Selesai'] as $index => $step)
+                            <li class="{{ $index < $currentStep ? 'is-done' : ($index === $currentStep ? 'is-current' : '') }}">
+                                <span class="customer-stepper__marker" aria-hidden="true">{{ $index < $currentStep ? '✓' : '' }}</span>
+                                <strong>{{ $step }}</strong>
+                                @if($index === 0)
+                                    <small>{{ $currentBooking->tanggal_booking->format('d/m') }} · {{ substr($currentBooking->jam_booking, 0, 5) }}</small>
+                                @elseif($index === $currentStep && $currentBooking->status === 'pending')
+                                    <small>Menunggu konfirmasi</small>
+                                @elseif($index === $currentStep && $currentBooking->status === 'on_progress')
+                                    <small>Sedang dikerjakan</small>
+                                @elseif($index === 3 && $currentBooking->status === 'finished')
+                                    <small>Selesai</small>
+                                @else
+                                    <small>&nbsp;</small>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ol>
+                @else
+                    <div class="customer-empty-action">
+                        <a class="customer-button customer-button--primary" href="{{ route('booking.create') }}">Booking servis</a>
+                    </div>
+                @endif
+            </section>
+
+            <div class="customer-side">
+                <section class="customer-card customer-estimate" aria-labelledby="estimate-title">
+                    <h2 id="estimate-title">Estimasi biaya</h2>
+                    @if($currentBooking)
+                        @if($currentBooking->status === 'finished')
+                            <p class="customer-muted">Informasi pembayaran untuk servis ini belum tersedia.</p>
+                        @else
+                            <p class="customer-muted">Rincian biaya akan ditampilkan setelah mekanik menyelesaikan pemeriksaan.</p>
+                        @endif
+                        <div class="customer-estimate__status">
+                            @if($currentBooking->status === 'finished')
+                                <span class="customer-status-pill customer-status-pill--finished"><i aria-hidden="true"></i>Servis selesai</span>
+                            @else
+                            <span class="customer-status-pill customer-status-pill--pending"><i aria-hidden="true"></i>Menunggu estimasi</span>
+                            @endif
                         </div>
-                        <p class="service-card__description">{{ $service['description'] }}</p>
-                    </article>
-                @endforeach
+                    @else
+                        <p class="customer-muted">Belum ada estimasi biaya. Buat booking untuk memulai servis.</p>
+                    @endif
+                </section>
+
+                <section class="customer-card customer-animation">
+                    <div>
+                        <p class="customer-eyebrow">Jelajahi motor</p>
+                        <h2>Lihat animasi pemeriksaan</h2>
+                        <p class="customer-muted">Masuk ke halaman animasi motor dan lihat cara pemeriksaan dilakukan.</p>
+                    </div>
+                    <a class="customer-button customer-button--primary" href="{{ route('home') }}#pindai">Buka animasi motor</a>
+                </section>
+
+                <section class="customer-card customer-history" id="service-history" aria-labelledby="history-title">
+                    <h2 id="history-title">Riwayat servis</h2>
+                    @forelse($serviceHistory as $booking)
+                        <article class="customer-history__row">
+                            <time datetime="{{ $booking->tanggal_booking->toDateString() }}">{{ $booking->tanggal_booking->format('d M Y') }}</time>
+                            <span>
+                                <strong>{{ \App\Models\Booking::LAYANAN[$booking->jenis_layanan] ?? $booking->jenis_layanan }}</strong>
+                                <small>{{ $booking->plat_nomor }}</small>
+                            </span>
+                            <b>Selesai</b>
+                        </article>
+                    @empty
+                        <p class="customer-muted customer-history__empty">Riwayat servis yang selesai akan muncul di sini.</p>
+                    @endforelse
+                </section>
             </div>
-            <button class="service-carousel__arrow service-carousel__arrow--next" type="button"
-                    aria-label="Lihat layanan berikutnya" data-scroll-direction="1">
-                <span aria-hidden="true">&rarr;</span>
-            </button>
         </div>
-    </section>
 
-    <section class="workshop-contact" aria-labelledby="workshop-contact-title">
-        <div class="workshop-contact__heading">
-            <p class="service-showcase__eyebrow">Kunjungi atau hubungi kami</p>
-            <h2 id="workshop-contact-title">Bengkel Syifa siap membantu</h2>
-        </div>
-        <div class="workshop-contact__details">
-            <article class="workshop-contact__card">
-                <span class="workshop-contact__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" stroke-width="1.8"/>
-                        <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.8"/>
-                    </svg>
-                </span>
+        @if($currentBooking)
+            <section class="customer-card customer-vehicle" id="vehicle-details" aria-labelledby="vehicle-title">
                 <div>
-                    <h3>Lokasi Bengkel</h3>
-                    <address>JL. Mawar, Kuansing, Riau, Indonesia</address>
+                    <p class="customer-eyebrow">Kendaraan</p>
+                    <h2 id="vehicle-title">{{ $currentBooking->jenis_motor }}</h2>
+                    <p>{{ $currentBooking->plat_nomor }} · {{ $serviceName }}</p>
                 </div>
-            </article>
-            <article class="workshop-contact__card">
-                <span class="workshop-contact__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M7 3h3l2 5-2.5 1.8a15 15 0 0 0 4.7 4.7L16 12l5 2v3c0 2.2-1.8 4-4 4C9.3 21 3 14.7 3 7c0-2.2 1.8-4 4-4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-                <div>
-                    <h3>Nomor Kontak</h3>
-                    <a href="tel:081314319622">0813-1431-9622</a>
-                </div>
-            </article>
-        </div>
-    </section>
-
+                <a class="customer-button customer-button--outline" href="{{ route('booking.create') }}">Booking lagi</a>
+            </section>
+        @endif
+    </main>
 </div>
 @endsection
-
-@push('scripts')
-    <script>
-        document.querySelectorAll('.service-carousel__arrow').forEach((arrow) => {
-            arrow.addEventListener('click', () => {
-                const track = document.getElementById('service-carousel-track');
-                const direction = Number(arrow.dataset.scrollDirection);
-                track.scrollBy({ left: direction * track.clientWidth * 0.8, behavior: 'smooth' });
-            });
-        });
-    </script>
-@endpush

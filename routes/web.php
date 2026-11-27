@@ -3,13 +3,12 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Halaman publik
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::view('/', 'home')->name('home');
+require __DIR__.'/roles.php';
 
 // Hanya untuk yang belum login
 Route::middleware('guest')->group(function () {
