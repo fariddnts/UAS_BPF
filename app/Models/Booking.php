@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Booking extends Model
 {
     public const STATUSES = [
-        'pending'     => 'Pending',
-        'on_progress' => 'On Progress',
-        'finished'    => 'Finished',
+        'pending'     => 'Booking',
+        'diagnosed'   => 'Diagnosa',
+        'on_progress' => 'Pengerjaan',
+        'finished'    => 'Serah terima',
     ];
 
     public const LAYANAN = [
@@ -24,12 +25,16 @@ class Booking extends Model
 
     protected $fillable = [
         'user_id', 'mekanik_id', 'plat_nomor', 'jenis_motor', 'jenis_layanan',
-        'keluhan', 'tanggal_booking', 'jam_booking', 'status',
+        'keluhan', 'tanggal_booking', 'jam_booking', 'status', 'total_biaya', 'metode_pembayaran',
+        'payment_proof_path', 'payment_verified_at',
     ];
 
     protected function casts(): array
     {
-        return ['tanggal_booking' => 'date'];
+        return [
+            'tanggal_booking' => 'date',
+            'payment_verified_at' => 'datetime',
+        ];
     }
 
     public function user(): BelongsTo
@@ -50,6 +55,7 @@ class Booking extends Model
     public function badgeClass(): string
     {
         return match ($this->status) {
+            'diagnosed'   => 'bg-primary',
             'on_progress' => 'bg-info',
             'finished'    => 'bg-success',
             default       => 'bg-warning',

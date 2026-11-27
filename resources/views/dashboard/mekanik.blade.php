@@ -8,10 +8,8 @@
 
 @section('content')
 @php
-    $pendingCount = $bookings->where('status', 'pending')->count();
-    $inProgressCount = $bookings->where('status', 'on_progress')->count();
-    $finishedCount = $bookings->where('status', 'finished')->count();
     $isMechanic = auth()->user()->hasRole('mekanik');
+    $isAdmin = auth()->user()->hasRole('admin');
 @endphp
 
 <div class="mechanic-dashboard">
@@ -46,33 +44,6 @@
     </div>
 @endif
 
-    <section class="mechanic-stats" aria-label="Ringkasan status pekerjaan">
-        <article class="mechanic-stat-card mechanic-stat-card--pending">
-            <span class="mechanic-stat-card__icon" aria-hidden="true">◷</span>
-            <div>
-                <p>Menunggu</p>
-                <strong>{{ $pendingCount }}</strong>
-                <span>pekerjaan</span>
-            </div>
-        </article>
-        <article class="mechanic-stat-card mechanic-stat-card--progress">
-            <span class="mechanic-stat-card__icon" aria-hidden="true">↻</span>
-            <div>
-                <p>Sedang Dikerjakan</p>
-                <strong>{{ $inProgressCount }}</strong>
-                <span>pekerjaan</span>
-            </div>
-        </article>
-        <article class="mechanic-stat-card mechanic-stat-card--finished">
-            <span class="mechanic-stat-card__icon" aria-hidden="true">✓</span>
-            <div>
-                <p>Selesai</p>
-                <strong>{{ $finishedCount }}</strong>
-                <span>pekerjaan</span>
-            </div>
-        </article>
-    </section>
-
     <section class="mechanic-work-section" aria-labelledby="work-list-title">
         <div class="mechanic-work-section__heading">
             <div>
@@ -93,8 +64,11 @@
                             <th>Layanan</th>
                             <th>Keluhan</th>
                             <th>Status</th>
-                            @if(auth()->user()->hasRole('mekanik'))
+                            @if($isMechanic)
                                 <th>Ubah Status</th>
+                            @endif
+                            @if($isAdmin)
+                                <th>Verifikasi pembayaran</th>
                             @endif
                         </tr>
                     </thead>
@@ -115,7 +89,7 @@
                                 </td>
                                 <td class="mechanic-work-table__complaint">{{ $b->keluhan ?: '-' }}</td>
                                 <td><span class="badge {{ $b->badgeClass() }}">{{ $b->statusLabel() }}</span></td>
-                                @if(auth()->user()->hasRole('mekanik'))
+                                @if($isMechanic)
                                     <td>
                                         <form action="{{ route('pekerjaan.status', $b) }}" method="POST" class="mechanic-status-form">
                                             @csrf
@@ -125,14 +99,45 @@
                                                     <option value="{{ $value }}" @selected($b->status === $value)>{{ $label }}</option>
                                                 @endforeach
                                             </select>
+                                            <label class="mechanic-status-form__cost">
+                                                <span>Total biaya (Rp; wajib saat Serah terima)</span>
+                                                <input type="number" name="total_biaya" class="form-control form-control-sm"
+                                                       min="0" max="999999999999" step="1"
+                                                       value="{{ old('total_biaya', $b->total_biaya) }}"
+                                                       aria-label="Total biaya servis {{ $b->jenis_motor }}">
+                                            </label>
                                             <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
                                         </form>
+                                    </td>
+                                @endif
+                                @if($isAdmin)
+                                    <td>
+                                        @if($b->metode_pembayaran === 'qris')
+                                            @if($b->payment_proof_path)
+                                                <a href="{{ route('admin.payment-proof', $b, false) }}" target="_blank" rel="noopener">Lihat bukti</a>
+                                                <form action="{{ route('admin.payment-verification', $b, false) }}" method="POST" class="mechanic-payment-review">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <label>
+                                                        <input type="checkbox" name="verified" value="1" @checked($b->payment_verified_at)>
+                                                        Disetujui
+                                                    </label>
+                                                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                                </form>
+                                            @else
+                                                <span>Menunggu bukti</span>
+                                            @endif
+                                        @elseif($b->metode_pembayaran === 'cash')
+                                            <span>Cash / kasir</span>
+                                        @else
+                                            <span>Belum dipilih</span>
+                                        @endif
                                     </td>
                                 @endif
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="{{ auth()->user()->hasRole('mekanik') ? 7 : 6 }}" class="mechanic-work-table__empty">
+                                <td colspan="{{ ($isMechanic || $isAdmin) ? 7 : 6 }}" class="mechanic-work-table__empty">
                                     <span class="mechanic-work-table__empty-icon" aria-hidden="true">✓</span>
                                     <strong>Belum ada pekerjaan</strong>
                                     <span>Jadwal servis baru akan muncul di sini.</span>

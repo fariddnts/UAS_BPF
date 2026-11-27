@@ -280,24 +280,55 @@
 }
 
 .mechanic-status-form {
-    align-items: center;
-    display: flex;
-    gap: 0.5rem;
-    min-width: 205px;
+    align-items: stretch;
+    display: grid;
+    gap: 0.45rem;
+    min-width: 215px;
 }
 
 .mechanic-status-form .form-select {
     min-width: 120px;
 }
 
+.mechanic-status-form__cost {
+    color: #687386;
+    display: grid;
+    font-size: 0.68rem;
+    gap: 0.25rem;
+}
+
+.mechanic-status-form__cost .form-control {
+    max-width: 170px;
+}
+
 .mechanic-status-form .btn {
     background: var(--mechanic-ink);
     border-color: var(--mechanic-ink);
+    justify-self: start;
 }
 
 .mechanic-status-form .btn:hover {
     background: var(--mechanic-blue);
     border-color: var(--mechanic-blue);
+}
+
+.mechanic-payment-review {
+    align-items: center;
+    display: flex;
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+}
+
+.mechanic-payment-review label {
+    align-items: center;
+    color: #687386;
+    display: inline-flex;
+    font-size: 0.72rem;
+    gap: 0.3rem;
+}
+
+.mechanic-payment-review input {
+    accent-color: var(--mechanic-blue);
 }
 
 .mechanic-work-table__empty {

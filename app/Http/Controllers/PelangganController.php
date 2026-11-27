@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pelanggan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PelangganController extends Controller
@@ -12,8 +13,12 @@ class PelangganController extends Controller
      */
     public function index()
     {
-        $data['dataPelanggan'] = Pelanggan::all();
-        return view('admin.pelanggan.index', $data);
+        $customers = User::query()
+            ->where('role', User::ROLE_USER)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email', 'created_at']);
+
+        return view('admin.pelanggan.index', compact('customers'));
     }
 
     /**

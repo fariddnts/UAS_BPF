@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#09133d">
     <title>@yield('title', 'Dashboard | Bengkel Syifa')</title>
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard-user.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard-navigation.css') }}">
     @stack('styles')
 </head>
 <body class="user-dashboard-body">

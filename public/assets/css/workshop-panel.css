@@ -1,0 +1,551 @@
+:root {
+    --panel-bg: #09133d;
+    --panel-card: #111d4d;
+    --panel-border: #233366;
+    --panel-text: #eef3ff;
+    --panel-muted: #9aa8cc;
+    --panel-cyan: #45d8f4;
+}
+
+body.workshop-panel-body {
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    min-height: 100vh;
+}
+
+.workshop-panel-main {
+    margin-left: 0;
+    min-height: 100vh;
+    padding: 0 1.5rem;
+}
+
+.workshop-panel-content {
+    margin: 0 auto;
+    max-width: 1500px;
+    min-height: calc(100vh - 8rem);
+}
+
+.workshop-panel-content h1,
+.workshop-panel-content h2,
+.workshop-panel-content h3,
+.workshop-panel-content h4,
+.workshop-panel-content h5,
+.workshop-panel-content h6 {
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .breadcrumb,
+.workshop-panel-content .breadcrumb a {
+    color: var(--panel-muted);
+}
+
+.workshop-panel-content .breadcrumb-item.active {
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-footer {
+    border-top: 1px solid #202d5c;
+    color: var(--panel-muted);
+    font-size: 0.7rem;
+    margin: 1.5rem auto 0;
+    max-width: 1500px;
+    padding: 1rem 0;
+}
+
+.role-process {
+    margin-bottom: 1.5rem;
+}
+
+.role-process__heading {
+    align-items: end;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.role-process__eyebrow {
+    color: var(--panel-cyan);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.2rem;
+    text-transform: uppercase;
+}
+
+.role-process__heading h2 {
+    color: var(--panel-text);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    font-weight: 700;
+    margin: 0;
+}
+
+.role-process__heading > span {
+    color: var(--panel-muted);
+    font-size: 0.7rem;
+}
+
+.role-process__grid {
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.role-process__card {
+    background: var(--panel-card);
+    border: 1px solid var(--panel-border);
+    border-radius: 0.55rem;
+    min-height: 10.5rem;
+    min-width: 0;
+    padding: 1rem;
+    position: relative;
+}
+
+.role-process__number {
+    color: #2a3d78;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.65rem;
+}
+
+.role-process__card h3 {
+    color: var(--panel-text);
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 2.4rem 0.65rem 0;
+}
+
+.role-process__metric {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.role-process__metric strong {
+    color: var(--panel-cyan);
+    font-size: 1.4rem;
+    font-weight: 750;
+    line-height: 1;
+}
+
+.role-process__metric span {
+    color: var(--panel-muted);
+    font-size: 0.66rem;
+}
+
+.role-process__card > p {
+    color: var(--panel-muted);
+    font-size: 0.68rem;
+    line-height: 1.45;
+    margin: 0.65rem 0 0;
+}
+
+.workshop-panel-content .card,
+.workshop-panel-content .owner-chart,
+.workshop-panel-content .owner-hero,
+.workshop-panel-content .owner-period-card,
+.workshop-panel-content .mechanic-hero,
+.workshop-panel-content .mechanic-stat-card,
+.workshop-panel-content .mechanic-work-card {
+    background: var(--panel-card);
+    border: 1px solid var(--panel-border);
+    border-radius: 0.55rem;
+    box-shadow: none;
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--panel-border);
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .card-header h1,
+.workshop-panel-content .card-header h2,
+.workshop-panel-content .card-body h1,
+.workshop-panel-content .card-body h2,
+.workshop-panel-content .card-body h3 {
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #d3ddf8;
+    --bs-table-border-color: var(--panel-border);
+    --bs-table-striped-bg: #14204c;
+    --bs-table-striped-color: var(--panel-text);
+    --bs-table-hover-bg: #172958;
+    --bs-table-hover-color: var(--panel-text);
+    color: #d3ddf8;
+    margin-bottom: 0;
+}
+
+.workshop-panel-content .table > :not(caption) > * > * {
+    background-color: transparent;
+    border-bottom-color: var(--panel-border);
+    color: inherit;
+}
+
+.workshop-panel-content .table thead th {
+    background: #0e1943;
+    color: var(--panel-muted);
+}
+
+.workshop-panel-content .form-label,
+.workshop-panel-content label {
+    color: #d3ddf8;
+}
+
+.workshop-panel-content .form-control,
+.workshop-panel-content .form-select {
+    background-color: #0c1742;
+    border-color: #334477;
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .form-control:focus,
+.workshop-panel-content .form-select:focus {
+    background-color: #0c1742;
+    border-color: var(--panel-cyan);
+    box-shadow: 0 0 0 0.2rem rgba(69, 216, 244, 0.16);
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .form-control::placeholder {
+    color: #7787b1;
+}
+
+.workshop-panel-content .text-muted,
+.workshop-panel-content .text-gray-500,
+.workshop-panel-content .text-gray-600,
+.workshop-panel-content .text-gray-700,
+.workshop-panel-content .text-gray-900 {
+    color: var(--panel-muted) !important;
+}
+
+.workshop-panel-content .admin-users__title,
+.workshop-panel-content .admin-users__name,
+.workshop-panel-content .admin-users__list-heading h2 {
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .admin-users__subtitle,
+.workshop-panel-content .admin-users__stat p,
+.workshop-panel-content .admin-users__stat div > span {
+    color: var(--panel-muted);
+}
+
+.workshop-panel-content .admin-users__eyebrow,
+.workshop-panel-content .admin-users__list-heading .admin-users__eyebrow {
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-content .admin-users__stat {
+    background: var(--panel-card);
+    border-color: var(--panel-border);
+    box-shadow: none;
+}
+
+.workshop-panel-content .admin-users__stat-icon,
+.workshop-panel-content .admin-users__stat--all .admin-users__stat-icon,
+.workshop-panel-content .admin-users__stat--owner .admin-users__stat-icon,
+.workshop-panel-content .admin-users__stat--mekanik .admin-users__stat-icon,
+.workshop-panel-content .admin-users__stat--user .admin-users__stat-icon,
+.workshop-panel-content .admin-users__avatar {
+    background: #172958;
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-content .admin-users__stat strong {
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-content .admin-users__count,
+.workshop-panel-content .admin-users__role-count {
+    background: #0c1742;
+    border-color: #334477;
+    color: var(--panel-muted);
+}
+
+.workshop-panel-content .admin-users__role-row th {
+    background: #0e1943;
+    border-color: var(--panel-border);
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .admin-users__role-badge,
+.workshop-panel-content .admin-users__role-badge--owner,
+.workshop-panel-content .admin-users__role-badge--mekanik,
+.workshop-panel-content .admin-users__role-badge--user {
+    background: #172958;
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-content .admin-users__edit-button {
+    background: #172958;
+    border-color: #334477;
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-content .admin-users__edit-button:hover {
+    background: var(--panel-cyan);
+    border-color: var(--panel-cyan);
+    color: #071431;
+}
+
+.workshop-panel-content .admin-users__delete-button {
+    background: #3c1b35;
+    border-color: #7d365b;
+    color: #ffd9e7;
+}
+
+.workshop-panel-content .admin-users__delete-button:hover {
+    background: #7d365b;
+    border-color: #7d365b;
+    color: #fff;
+}
+
+.workshop-panel-content .admin-users__empty {
+    color: var(--panel-muted) !important;
+}
+
+.workshop-panel-content .btn-primary {
+    background: var(--panel-cyan);
+    border-color: var(--panel-cyan);
+    color: #071431;
+    font-weight: 700;
+}
+
+.workshop-panel-content .btn-primary:hover,
+.workshop-panel-content .btn-primary:focus {
+    background: #70e7fa;
+    border-color: #70e7fa;
+    color: #071431;
+}
+
+.workshop-panel-content .btn-secondary,
+.workshop-panel-content .btn-gray-800 {
+    background: #172653;
+    border-color: #3a4b83;
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .btn-info {
+    background: var(--panel-cyan);
+    border-color: var(--panel-cyan);
+    color: #071431;
+}
+
+.workshop-panel-content .btn-outline-secondary {
+    border-color: #3a4b83;
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .btn-outline-secondary:hover {
+    background: #172958;
+    border-color: var(--panel-cyan);
+    color: var(--panel-text);
+}
+.workshop-panel-content .owner-chart,
+.workshop-panel-content .owner-hero,
+.workshop-panel-content .owner-period-card,
+.workshop-panel-content .mechanic-hero,
+.workshop-panel-content .mechanic-stat-card,
+.workshop-panel-content .mechanic-work-card {
+    border-radius: 0.55rem;
+}
+
+.workshop-panel-content .owner-chart__heading h1,
+.workshop-panel-content .owner-hero__copy h1,
+.workshop-panel-content .owner-services__heading h2,
+.workshop-panel-content .mechanic-hero__copy h1,
+.workshop-panel-content .mechanic-work-section__heading h2,
+.workshop-panel-content .mechanic-work-table tbody td,
+.workshop-panel-content .owner-services__table tbody th,
+.workshop-panel-content .owner-services__table tbody td {
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .owner-chart__heading p:last-child,
+.workshop-panel-content .owner-hero__copy > p:not(.owner-hero__eyebrow),
+.workshop-panel-content .owner-hero__note,
+.workshop-panel-content .owner-period-card__caption,
+.workshop-panel-content .owner-period-card__label,
+.workshop-panel-content .owner-services__heading p,
+.workshop-panel-content .mechanic-hero__copy > p:not(.mechanic-hero__eyebrow),
+.workshop-panel-content .mechanic-hero__note,
+.workshop-panel-content .mechanic-stat-card p,
+.workshop-panel-content .mechanic-stat-card div > span,
+.workshop-panel-content .mechanic-work-section__count,
+.workshop-panel-content .mechanic-work-table__subtext,
+.workshop-panel-content .mechanic-work-table__complaint {
+    color: var(--panel-muted);
+}
+
+.workshop-panel-content .owner-chart__gridline,
+.workshop-panel-content .owner-services__table,
+.workshop-panel-content .mechanic-work-table thead th,
+.workshop-panel-content .mechanic-work-table tbody td {
+    border-color: var(--panel-border);
+}
+
+.workshop-panel-content .owner-chart__scale-label,
+.workshop-panel-content .owner-chart__category {
+    color: var(--panel-muted);
+}
+
+.workshop-panel-content .owner-period-card__value,
+.workshop-panel-content .mechanic-stat-card strong {
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-content .owner-period-card__bar {
+    background: var(--panel-cyan);
+}
+
+.workshop-panel-content .owner-period-card--monthly .owner-period-card__bar,
+.workshop-panel-content .owner-period-card--yearly .owner-period-card__bar {
+    background: var(--panel-cyan);
+}
+
+.workshop-panel-content .mechanic-stat-card__icon,
+.workshop-panel-content .mechanic-stat-card--progress .mechanic-stat-card__icon,
+.workshop-panel-content .mechanic-stat-card--finished .mechanic-stat-card__icon,
+.workshop-panel-content .mechanic-hero__note-icon,
+.workshop-panel-content .owner-hero__note-icon {
+    background: #172958;
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-content .owner-services__badge,
+.workshop-panel-content .mechanic-work-section__count {
+    background: #0c1742;
+    border: 1px solid #334477;
+    color: var(--panel-muted);
+}
+
+.workshop-panel-content .owner-hero,
+.workshop-panel-content .mechanic-hero {
+    background: linear-gradient(115deg, #111d4d 0%, #111d4d 55%, #172958 100%);
+}
+
+.workshop-panel-content .owner-hero__visual-label,
+.workshop-panel-content .mechanic-hero__visual-label {
+    background: #0c1742;
+    border-color: #334477;
+    color: var(--panel-text);
+}
+
+.workshop-panel-content .owner-hero__visual-label span {
+    color: var(--panel-muted);
+}
+
+.workshop-panel-content .owner-hero__shape--blue,
+.workshop-panel-content .mechanic-hero__shape {
+    background: #173c78;
+}
+
+.workshop-panel-content .owner-hero__shape--orange {
+    border-color: var(--panel-cyan);
+    border-left-color: transparent;
+}
+
+.workshop-panel-content .mechanic-hero__visual-label {
+    background: var(--panel-cyan);
+    border-color: var(--panel-card);
+    color: #071431;
+}
+
+.workshop-panel-content .mechanic-hero__visual img,
+.workshop-panel-content .owner-hero__visual img {
+    border-color: #24366c;
+}
+
+.workshop-panel-content .mechanic-service-tag {
+    background: #172958;
+    color: #d3ddf8;
+}
+
+.workshop-panel-content .mechanic-status-form .btn {
+    background: var(--panel-cyan);
+    border-color: var(--panel-cyan);
+    color: #071431;
+}
+
+.workshop-panel-content .mechanic-status-form .btn:hover {
+    background: #70e7fa;
+    border-color: #70e7fa;
+}
+
+.workshop-panel-content .mechanic-work-table__empty-icon {
+    background: #172958;
+    color: var(--panel-cyan);
+}
+
+.workshop-panel-content .alert-success {
+    background: #123d45;
+    border-color: #287b80;
+    color: #c9fcf3;
+}
+
+.workshop-panel-content .alert-danger {
+    background: #3c1b35;
+    border-color: #7d365b;
+    color: #ffd9e7;
+}
+
+.workshop-panel-content .owner-chart__bar {
+    background-color: color-mix(in srgb, var(--bar-color) 45%, #111d4d);
+}
+
+@media (max-width: 700px) {
+    .workshop-panel-main {
+        margin-left: 0;
+        padding: 0 1rem;
+    }
+
+    .workshop-panel-content {
+        min-height: calc(100vh - 8rem);
+    }
+
+    .workshop-panel-content .owner-hero,
+    .workshop-panel-content .mechanic-hero {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 1.4rem;
+    }
+
+    .workshop-panel-content .owner-hero__visual,
+    .workshop-panel-content .mechanic-hero__visual {
+        height: 180px;
+    }
+
+    .workshop-panel-content .mechanic-stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .role-process__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .role-process__grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .role-process__card {
+        min-height: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .workshop-panel-body *,
+    .workshop-panel-body *::before,
+    .workshop-panel-body *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+}

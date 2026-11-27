@@ -21,8 +21,21 @@
     <a href="#alur">Alur servis</a>
   </nav>
   <div class="nav-actions">
-    <a class="btn btn-sm" href="{{ Route::has('login') ? route('login') : '#' }}">Masuk</a>
-    <a class="btn btn-sm btn-primary" href="{{ route('booking.create') }}">Booking servis</a>
+    @auth
+      <div class="nav-profile">
+        <span class="nav-profile__avatar" aria-hidden="true">{{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}</span>
+        <span class="nav-profile__identity">
+          <strong>{{ auth()->user()->name }}</strong>
+          <small>{{ ucfirst(auth()->user()->role) }}</small>
+        </span>
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="submit">Keluar</button>
+        </form>
+      </div>
+    @else
+      <a class="btn btn-sm" href="{{ Route::has('login') ? route('login') : '#' }}">Login</a>
+    @endauth
   </div>
   <div class="nav-progress"><i></i></div>
 </header>
@@ -37,7 +50,7 @@
       </h1>
       <p class="fade">Booking dari ponsel, pantau mekanik bekerja secara langsung, dan setujui biaya sebelum ada sparepart yang diganti.</p>
       <div class="actions fade">
-        <a class="btn btn-primary" href="{{ route('booking.create') }}">Booking servis</a>
+        <a class="btn btn-primary" href="{{ route('booking.create', [], false) }}">Booking servis</a>
         <a class="btn" href="#pindai">Lihat cara kami memeriksa</a>
       </div>
     </div>
@@ -152,7 +165,7 @@
   <section class="finale">
     <div class="stick">
       <h2>Servis tanpa tebak-tebakan.</h2>
-      <a class="btn btn-primary" href="{{ route('booking.create') }}">Booking servis</a>
+      <a class="btn btn-primary" href="{{ route('booking.create', [], false) }}">Booking servis</a>
       <p class="note">Bengkel Syifa melayani servis motor dengan transparan. Data demo di halaman ini bersifat ilustrasi.</p>
     </div>
   </section>

@@ -8,6 +8,14 @@ main { position: relative; z-index: 1; }
 .nav nav { display: flex; gap: 32px; font-size: 14px; font-weight: 500; color: var(--muted); }
 .nav nav a:hover { color: var(--ink); }
 .nav-actions { display: flex; gap: 10px; }
+.nav-profile { display: flex; align-items: center; gap: 12px; font-size: 12px; }
+.nav-profile__avatar { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--scan); border-radius: 50%; font-weight: 600; }
+.nav-profile__identity { display: grid; line-height: 1.25; }
+.nav-profile__identity strong { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-profile__identity small { color: var(--muted); }
+.nav-profile form { margin: 0; }
+.nav-profile button { min-height: 36px; padding: 0 12px; border: 1px solid var(--line-strong); border-radius: 6px; font-size: 13px; font-weight: 600; }
+.nav-profile button:hover { border-color: var(--scan); }
 .nav-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; }
 .nav-progress i { display: block; height: 100%; background: var(--scan); transform-origin: left; transform: scaleX(0); }
 

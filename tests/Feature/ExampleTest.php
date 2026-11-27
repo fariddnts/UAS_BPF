@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
@@ -19,6 +20,35 @@ class ExampleTest extends TestCase
         $response->assertSee('Empat sistem diperiksa dalam satu pemindaian');
         $response->assertDontSee('Ruang kerja');
         $response->assertDontSee('Buka dashboard admin');
+        $response->assertSee('Login');
+        $response->assertDontSee('Keluar');
+        $response->assertSee('href="/booking/create"', false);
+    }
+
+    public function test_authenticated_homepage_shows_user_profile_without_top_booking_button(): void
+    {
+        $user = User::factory()->make(['name' => 'Asep', 'role' => User::ROLE_USER]);
+
+        $response = $this->actingAs($user)->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee('Asep');
+        $response->assertSee('User');
+        $response->assertSee('Keluar');
+        $response->assertDontSee('>Login</a>', false);
+        $response->assertDontSee('class="btn btn-sm btn-primary"', false);
+        $response->assertSee('href="/booking/create"', false);
+    }
+
+    public function test_logout_redirects_to_login_form(): void
+    {
+        $this->post(route('logout'))
+            ->assertRedirect(route('login'));
+
+        $this->get(route('login'))
+            ->assertOk()
+            ->assertSee('Selamat Datang')
+            ->assertSee('Masuk');
     }
 
     /**

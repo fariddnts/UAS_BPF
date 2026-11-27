@@ -18,11 +18,7 @@
             <div class="d-flex justify-content-between w-100 flex-wrap">
                 <div class="mb-3 mb-lg-0">
                     <h1 class="h4">Daftar Pelanggan</h1>
-                </div>
-                <div>
-                    <a href="{{ route('pelanggan.create') }}" class="btn btn-gray-800 d-inline-flex align-items-center">
-                        Tambah Pelanggan
-                    </a>
+                    <p class="mb-0">Daftar akun pengguna yang terdaftar sebagai pelanggan.</p>
                 </div>
             </div>
     </div>
@@ -39,43 +35,23 @@
                             <table class="table table-centered table-nowrap mb-0 rounded">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="border-0 rounded-start">First Name</th>
-                                        <th class="border-0">Last Name</th>
-                                        <th class="border-0">Birthday</th>
-                                        <th class="border-0">Gender</th>
+                                        <th class="border-0 rounded-start">Nama</th>
                                         <th class="border-0">Email</th>
-                                        <th class="border-0">Phone</th>
-                                        <th class="border-0 rounded-end">Aksi</th>
+                                        <th class="border-0 rounded-end">Tanggal daftar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($dataPelanggan as $item)
+                                    @forelse($customers as $customer)
                                     <tr>
-                                        <td>{{ $item->first_name }}</td>
-                                        <td>{{ $item->last_name }}</td>
-                                        <td>{{ $item->birthday }}</td>
-                                        <td>{{ $item->gender }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->phone }}</td>
-                                        <td>
-                                            <!-- Tombol Edit -->
-                                            <a href="{{ route('pelanggan.edit', $item->pelanggan_id) }}" class="btn btn-info btn-sm">
-                                                <svg  class="icon icon-xs me-2" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
-                                                </svg>
-                                                Edit
-                                            </a>
-
-
-                                            <!-- Tombol Hapus -->
-                                            <form action="{{ route('pelanggan.destroy', $item->pelanggan_id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin mau hapus data ini?')">Hapus</button>
-                                            </form>
-                                        </td>
+                                        <td>{{ $customer->name }}</td>
+                                        <td>{{ $customer->email }}</td>
+                                        <td>{{ $customer->created_at?->format('d M Y') ?? 'Tidak tersedia' }}</td>
                                     </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center py-4">Belum ada akun pelanggan.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

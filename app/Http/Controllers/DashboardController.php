@@ -3,10 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function status(Request $request)
+    {
+        $bookingQuery = Booking::query()
+            ->where('user_id', $request->user()->id)
+            ->orderByDesc('tanggal_booking')
+            ->orderByDesc('jam_booking');
+
+        $currentBooking = (clone $bookingQuery)
+            ->where('status', '!=', 'finished')
+            ->first(['id', 'status', 'updated_at'])
+            ?? $bookingQuery->first(['id', 'status', 'updated_at']);
+        $estimateBookingId = filter_var($request->query('estimate_booking'), FILTER_VALIDATE_INT);
+        $estimateBooking = $estimateBookingId
+            ? Booking::query()
+                ->where('user_id', $request->user()->id)
+                ->whereKey($estimateBookingId)
+                ->first(['id', 'updated_at'])
+            : $currentBooking;
+
+        return response()->json([
+            'bookingId' => $currentBooking?->id,
+            'status' => $currentBooking?->status,
+            'updatedAt' => $currentBooking?->updated_at?->timestamp,
+            'estimateBookingId' => $estimateBooking?->id,
+            'estimateUpdatedAt' => $estimateBooking?->updated_at?->timestamp,
+        ])->header('Cache-Control', 'private, no-store');
+    }
+
+    public function index(Request $request)
     {
         $user = auth()->user();
 
@@ -22,18 +51,26 @@ class DashboardController extends Controller
             $currentBooking = $bookings->first(
                 fn (Booking $booking): bool => $booking->status !== 'finished'
             ) ?? $bookings->first();
+            $estimateBookingId = filter_var($request->query('estimate_booking'), FILTER_VALIDATE_INT);
+            $estimateBooking = $estimateBookingId
+                ? ($bookings->firstWhere('id', $estimateBookingId) ?? $currentBooking)
+                : $currentBooking;
             $serviceHistory = $bookings
-                ->filter(fn (Booking $booking): bool => $booking->status === 'finished'
-                    && $booking->id !== $currentBooking?->id)
+                ->filter(fn (Booking $booking): bool => $booking->status === 'finished')
                 ->take(5);
 
-            return view('dashboard.user', compact('currentBooking', 'serviceHistory'));
+            return view('dashboard.user', compact('currentBooking', 'estimateBooking', 'serviceHistory'));
         }
 
         // Admin dan mekanik: daftar pekerjaan
         if ($user->hasRole('admin', 'mekanik')) {
-            $bookings = Booking::with('user')
-                ->orderByRaw("FIELD(status, 'on_progress', 'pending', 'finished')")
+            $bookingQuery = Booking::with('user');
+            if ($user->hasRole('admin')) {
+                $bookingQuery->whereNull('payment_verified_at');
+            }
+
+            $bookings = $bookingQuery
+                ->orderByRaw("FIELD(status, 'pending', 'diagnosed', 'on_progress', 'finished')")
                 ->orderBy('tanggal_booking')
                 ->orderBy('jam_booking')
                 ->get();
@@ -83,5 +120,18 @@ class DashboardController extends Controller
             'bookingStats' => $bookingStats,
             'serviceTypes' => Booking::LAYANAN,
         ]);
+    }
+
+    public function completedUsers()
+    {
+        $bookings = Booking::query()
+            ->with('user')
+            ->where('status', 'finished')
+            ->where('metode_pembayaran', 'qris')
+            ->whereNotNull('payment_verified_at')
+            ->orderByDesc('payment_verified_at')
+            ->get();
+
+        return view('admin.completed-users', compact('bookings'));
     }
 }

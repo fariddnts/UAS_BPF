@@ -1,57 +1,61 @@
-@extends('layout.admin.app')
+@extends('layout.user-dashboard')
 
-@section('title', 'Pesan Jadwal Servis')
-
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/dashboard-user.css') }}">
-@endpush
+@section('title', 'Pesan Jadwal Servis | Bengkel Syifa')
 
 @section('content')
-<div class="user-dashboard user-booking-page">
-    <div class="user-booking-page__heading">
-        <div>
-            <p class="service-showcase__eyebrow">Bengkel Syifa</p>
-            <h1>Pesan Jadwal Servis</h1>
-            <p>Lengkapi data motor dan pilih waktu kunjunganmu.</p>
-        </div>
-        <a class="user-booking-page__back" href="{{ route('dashboard') }}">&larr; Kembali ke Beranda</a>
-    </div>
+<div class="customer-dashboard">
+    @include('layout.dashboard-navigation')
 
-    @if(session('success'))
-        <div class="alert alert-success" role="status">{{ session('success') }}</div>
-    @endif
+    <main class="customer-main">
+        <header class="customer-heading">
+            <div>
+                <p class="customer-eyebrow">Bengkel Syifa</p>
+                <h1>Pesan jadwal servis</h1>
+                <p>Lengkapi data motor dan pilih waktu kunjunganmu.</p>
+            </div>
+            <a class="customer-button customer-button--outline" href="{{ route('dashboard') }}">
+                <span aria-hidden="true">←</span>
+                Kembali ke beranda
+            </a>
+        </header>
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        @if(session('success'))
+            <div class="customer-notice" role="status">{{ session('success') }}</div>
+        @endif
 
-    <div class="row user-dashboard__booking-row">
-        <div class="col-lg-5 mb-4">
-            <div class="card border-0 shadow p-4 user-dashboard__form-card">
+        @if($errors->any())
+            <div class="customer-notice customer-notice--error" role="alert">
+                <strong>Periksa kembali data booking:</strong>
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="customer-booking-grid">
+            <section class="customer-card customer-booking-form" aria-labelledby="booking-form-title">
+                <h2 id="booking-form-title">Data servis</h2>
+                <p class="customer-muted">Pilih jadwal yang sesuai. Layanan bengkel tersedia pukul 08.00–16.00.</p>
+
                 <form action="{{ route('booking.store') }}" method="POST">
                     @csrf
-
-                    <div class="mb-3">
-                        <label class="form-label" for="plat_nomor">Plat Nomor</label>
-                        <input type="text" id="plat_nomor" name="plat_nomor" class="form-control"
-                               value="{{ old('plat_nomor') }}" placeholder="Contoh: BH 1234 AB" required>
+                    <div class="customer-field">
+                        <label for="plat_nomor">Plat nomor</label>
+                        <input type="text" id="plat_nomor" name="plat_nomor" value="{{ old('plat_nomor') }}"
+                               placeholder="Contoh: BH 1234 AB" maxlength="15" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="jenis_motor">Jenis Motor</label>
-                        <input type="text" id="jenis_motor" name="jenis_motor" class="form-control"
-                               value="{{ old('jenis_motor') }}" placeholder="Contoh: Honda Beat 2020" required>
+                    <div class="customer-field">
+                        <label for="jenis_motor">Jenis motor</label>
+                        <input type="text" id="jenis_motor" name="jenis_motor" value="{{ old('jenis_motor') }}"
+                               placeholder="Contoh: Honda Beat 2020" maxlength="100" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="jenis_layanan">Jenis Layanan</label>
-                        <select id="jenis_layanan" name="jenis_layanan" class="form-select" required>
+                    <div class="customer-field">
+                        <label for="jenis_layanan">Jenis layanan</label>
+                        <select id="jenis_layanan" name="jenis_layanan" required>
                             <option value="">Pilih layanan</option>
                             @foreach(\App\Models\Booking::LAYANAN as $value => $label)
                                 <option value="{{ $value }}" @selected(old('jenis_layanan', $selectedService) === $value)>{{ $label }}</option>
@@ -59,60 +63,59 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="keluhan">Keluhan (opsional)</label>
-                        <textarea id="keluhan" name="keluhan" rows="3" class="form-control">{{ old('keluhan') }}</textarea>
+                    <div class="customer-field">
+                        <label for="keluhan">Keluhan <span>(opsional)</span></label>
+                        <textarea id="keluhan" name="keluhan" rows="3" maxlength="500">{{ old('keluhan') }}</textarea>
                     </div>
 
-                    <div class="row">
-                        <div class="col-7 mb-3">
-                            <label class="form-label" for="tanggal_booking">Tanggal</label>
-                            <input type="date" id="tanggal_booking" name="tanggal_booking" class="form-control"
+                    <div class="customer-booking-date">
+                        <div class="customer-field">
+                            <label for="tanggal_booking">Tanggal</label>
+                            <input type="date" id="tanggal_booking" name="tanggal_booking"
                                    min="{{ now()->toDateString() }}" value="{{ old('tanggal_booking') }}" required>
                         </div>
-                        <div class="col-5 mb-3">
-                            <label class="form-label" for="jam_booking">Jam</label>
-                            <input type="time" id="jam_booking" name="jam_booking" class="form-control"
-                                   min="08:00" max="16:00" value="{{ old('jam_booking') }}" required>
+                        <div class="customer-field">
+                            <label for="jam_booking">Jam</label>
+                            <input type="time" id="jam_booking" name="jam_booking" min="08:00" max="16:00"
+                                   value="{{ old('jam_booking') }}" required>
                         </div>
                     </div>
-                    <p class="small text-muted">Jam layanan 08:00 sampai 16:00. Estimasi pengerjaan bisa berubah sesuai kondisi motor.</p>
 
-                    <button type="submit" class="btn btn-primary w-100">Pesan Jadwal</button>
+                    <p class="customer-booking-help">Estimasi pengerjaan dapat berubah sesuai kondisi motor. Jika jam pilihan penuh, silakan tentukan waktu lain.</p>
+                    <button class="customer-button customer-button--primary customer-booking-submit" type="submit">Pesan jadwal</button>
                 </form>
-            </div>
-        </div>
+            </section>
 
-        <div class="col-lg-7">
-            <div class="card border-0 shadow user-dashboard__orders-card">
-                <div class="card-header"><h2 class="h5 mb-0">Pesanan Saya</h2></div>
-                <div class="table-responsive">
-                    <table class="table table-centered mb-0">
-                        <thead>
-                            <tr>
-                                <th>Jadwal</th>
-                                <th>Motor</th>
-                                <th>Layanan</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($bookings as $b)
-                                <tr>
-                                    <td>{{ $b->tanggal_booking->format('d M Y') }}<br>
-                                        <small>{{ substr($b->jam_booking, 0, 5) }}</small></td>
-                                    <td>{{ $b->jenis_motor }}<br><small>{{ $b->plat_nomor }}</small></td>
-                                    <td>{{ \App\Models\Booking::LAYANAN[$b->jenis_layanan] ?? $b->jenis_layanan }}</td>
-                                    <td><span class="badge {{ $b->badgeClass() }}">{{ $b->statusLabel() }}</span></td>
-                                </tr>
-                            @empty
-                                <tr><td colspan="4" class="text-center py-4">Belum ada pesanan.</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+            <section class="customer-card customer-booking-orders" aria-labelledby="booking-orders-title">
+                <div class="customer-booking-orders__heading">
+                    <div>
+                        <p class="customer-eyebrow">Aktivitas</p>
+                        <h2 id="booking-orders-title">Pesanan saya</h2>
+                    </div>
+                    <span>{{ $bookings->count() }} pesanan</span>
                 </div>
-            </div>
+                @forelse($bookings as $booking)
+                    <article class="customer-booking-order">
+                        <div class="customer-booking-order__top">
+                            <strong>{{ \App\Models\Booking::LAYANAN[$booking->jenis_layanan] ?? $booking->jenis_layanan }}</strong>
+                            <span class="customer-status-pill customer-status-pill--{{ $booking->status }}">
+                                <i aria-hidden="true"></i>{{ $booking->statusLabel() }}
+                            </span>
+                        </div>
+                        <p>{{ $booking->jenis_motor }} <span>·</span> {{ $booking->plat_nomor }}</p>
+                        <time datetime="{{ $booking->tanggal_booking->toDateString() }}">
+                            {{ $booking->tanggal_booking->format('d M Y') }} · {{ substr($booking->jam_booking, 0, 5) }}
+                        </time>
+                    </article>
+                @empty
+                    <div class="customer-booking-empty">
+                        <span aria-hidden="true">◷</span>
+                        <strong>Belum ada pesanan</strong>
+                        <p class="customer-muted">Booking pertamamu akan muncul di sini beserta status servisnya.</p>
+                    </div>
+                @endforelse
+            </section>
         </div>
-    </div>
+    </main>
 </div>
 @endsection

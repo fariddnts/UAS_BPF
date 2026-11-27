@@ -9,9 +9,11 @@
 </head>
 <body class="auth-layout">
     <main class="auth-layout__main">
+        <canvas class="auth-starfield-canvas" aria-hidden="true"></canvas>
         @yield('content')
     </main>
 
     @include('layout.admin.js')
+    <script src="{{ asset('assets/js/auth-starfield.js') }}"></script>
 </body>
 </html>

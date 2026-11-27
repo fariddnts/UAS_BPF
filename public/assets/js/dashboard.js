@@ -9,6 +9,53 @@
 
   var holos = $$('canvas.holo').map(function (c) { return { el: c, moto: new NovaMoto(c) }; });
   var timer = $('#timer'), jobbar = $('#jobbar'), booted = false;
+  var customerDashboard = $('.customer-dashboard[data-status-url]');
+  var statusCheckPending = false;
+
+  $$('.customer-payment-form').forEach(function (form) {
+    $$('input[name="metode_pembayaran"]', form).forEach(function (input) {
+      input.addEventListener('change', function () {
+        if (input.checked) form.requestSubmit();
+      });
+    });
+  });
+
+  function checkCustomerStatus() {
+    if (!customerDashboard || document.hidden || statusCheckPending) return;
+    statusCheckPending = true;
+    fetch(customerDashboard.dataset.statusUrl, {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+      cache: 'no-store'
+    }).then(function (response) {
+      if (!response.ok) throw new Error('Status servis gagal diperiksa: HTTP ' + response.status);
+      return response.json();
+    }).then(function (status) {
+      var bookingId = status.bookingId == null ? '' : String(status.bookingId);
+      var bookingStatus = status.status || '';
+      var updatedAt = status.updatedAt == null ? '' : String(status.updatedAt);
+      var estimateBookingId = status.estimateBookingId == null ? '' : String(status.estimateBookingId);
+      var estimateUpdatedAt = status.estimateUpdatedAt == null ? '' : String(status.estimateUpdatedAt);
+      if (bookingId !== customerDashboard.dataset.currentBookingId ||
+          bookingStatus !== customerDashboard.dataset.currentBookingStatus ||
+          updatedAt !== customerDashboard.dataset.currentBookingUpdatedAt ||
+          estimateBookingId !== customerDashboard.dataset.estimateBookingId ||
+          estimateUpdatedAt !== customerDashboard.dataset.estimateBookingUpdatedAt) {
+        window.location.reload();
+      }
+    }).catch(function (error) {
+      console.error(error);
+    }).then(function () {
+      statusCheckPending = false;
+    });
+  }
+
+  if (customerDashboard && !capture) {
+    window.setInterval(checkCustomerStatus, 10000);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) checkCustomerStatus();
+    });
+  }
 
   function drawHolos(t) {
     holos.forEach(function (h) {
